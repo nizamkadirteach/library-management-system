@@ -1,23 +1,24 @@
 -- Sample data for 'users' table
 INSERT INTO users (username, password, role) VALUES
 ('admin', 'admin123', 'ADMIN'),
-('staff1', 'staff123', 'MEMBER'),
-('member1', 'pass123', 'MEMBER');
+('alice', 'alice123', 'MEMBER'),
+('bob', 'bob123', 'MEMBER'),
+('charlie', 'charlie123', 'MEMBER');
 
 -- Sample data for 'members' table
-INSERT INTO members (name, email, phone) VALUES
-('Alice Tan', 'alice@example.com', '81234567'),
-('Bob Lim', 'bob@example.com', '87654321'),
-('Charlie Goh', 'charlie@example.com', '82345678');
+INSERT INTO members (user_id, full_name, address, contact_info, membership_start, membership_end) VALUES
+(2, 'Alice Tan', '123 Orchard Road', 'alice@example.com', '2025-01-01', NULL),
+(3, 'Bob Lim', '456 Clementi Ave', 'bob@example.com', '2025-01-15', NULL),
+(4, 'Charlie Goh', '789 Tampines St', 'charlie@example.com', '2025-02-01', NULL);
 
 -- Sample data for 'books' table
-INSERT INTO books (title, author, isbn, available_copies) VALUES
-('Introduction to Java', 'John Doe', '978-1234567890', 5),
-('Spring Boot in Action', 'Craig Walls', '978-1617292545', 3),
-('Database Systems', 'C.J. Date', '978-0133970777', 4);
+INSERT INTO books (isbn, title, author, category, publication_year, copies_available, status) VALUES
+('978-1234567890', 'Introduction to Java', 'John Doe', 'Programming', 2020, 5, 'AVAILABLE'),
+('978-1617292545', 'Spring Boot in Action', 'Craig Walls', 'Programming', 2016, 3, 'AVAILABLE'),
+('978-0133970777', 'Database Systems', 'C.J. Date', 'Database', 2014, 4, 'AVAILABLE');
 
 -- Sample data for 'borrow_records' table
-INSERT INTO borrow_records (user_id, book_id, borrow_date, return_date) VALUES
-(1, 1, '2025-07-01', '2025-07-15'),
-(2, 2, '2025-07-02', NULL),
-(3, 3, '2025-07-03', NULL);
+INSERT INTO borrow_records (member_id, book_id, borrow_date, due_date, return_date, fine) VALUES
+(1, 1, '2025-07-01', '2025-07-15', '2025-07-10', 0.00),
+(2, 2, '2025-07-02', '2025-07-16', NULL, 0.00),
+(3, 3, '2025-07-03', '2025-07-17', NULL, 0.00);
