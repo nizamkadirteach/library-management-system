@@ -29,5 +29,6 @@ public class Book {
     @Column(name = "copies_available")
     private Integer copiesAvailable;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private BookStatus status;
 }

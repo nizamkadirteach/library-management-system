@@ -7,6 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
 
+
+/**
+ * Role-based account for application users.
+ */
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -21,7 +26,9 @@ public class User {
 
     private String username;
     private String password;
-    private String role;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
