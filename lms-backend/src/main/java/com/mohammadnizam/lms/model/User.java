@@ -1,12 +1,22 @@
 package com.mohammadnizam.lms.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
+
+
+/**
+ * Role-based account for application users.
+ */
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -17,8 +27,11 @@ public class User {
 
     private String username;
     private String password;
-    private String role;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column(name = "created_at", updatable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt;
 }

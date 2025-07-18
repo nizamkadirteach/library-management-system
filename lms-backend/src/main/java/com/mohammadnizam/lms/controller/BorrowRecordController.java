@@ -2,6 +2,7 @@ package com.mohammadnizam.lms.controller;
 
 import com.mohammadnizam.lms.dto.BorrowRecordDto;
 import com.mohammadnizam.lms.model.Book;
+import com.mohammadnizam.lms.model.BookStatus;
 import com.mohammadnizam.lms.model.BorrowRecord;
 import com.mohammadnizam.lms.model.Member;
 import com.mohammadnizam.lms.repository.BookRepository;
@@ -61,7 +62,7 @@ public class BorrowRecordController {
         if (book.getCopiesAvailable() != null && book.getCopiesAvailable() > 0) {
             book.setCopiesAvailable(book.getCopiesAvailable() - 1);
             if (book.getCopiesAvailable() == 0) {
-                book.setStatus("BORROWED");
+                book.setStatus(BookStatus.BORROWED);
             }
             bookRepository.save(book);
         } else {
@@ -103,7 +104,7 @@ public class BorrowRecordController {
             } else {
                 book.setCopiesAvailable(1);
             }
-            book.setStatus("AVAILABLE");
+            book.setStatus(BookStatus.AVAILABLE);
             bookRepository.save(book);
 
             borrowRecordRepository.save(record);

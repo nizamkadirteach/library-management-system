@@ -2,6 +2,7 @@ package com.mohammadnizam.lms.controller;
 
 import com.mohammadnizam.lms.dto.BookDto;
 import com.mohammadnizam.lms.model.Book;
+import com.mohammadnizam.lms.model.BookStatus;
 import com.mohammadnizam.lms.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class BookController {
 
     @GetMapping("/available")
     public ResponseEntity<List<BookDto>> getAvailableBooks() {
-        List<BookDto> list = bookRepository.findByStatus("AVAILABLE")
+        List<BookDto> list = bookRepository.findByStatus(BookStatus.AVAILABLE)
                 .stream()
                 .map(BookDto::fromEntity)
                 .toList();

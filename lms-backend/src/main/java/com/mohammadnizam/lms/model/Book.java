@@ -1,11 +1,15 @@
 package com.mohammadnizam.lms.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "books")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Book {
@@ -25,5 +29,6 @@ public class Book {
     @Column(name = "copies_available")
     private Integer copiesAvailable;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private BookStatus status;
 }
