@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -54,6 +55,7 @@ class BorrowRecordControllerIntegrationTest {
         user.setUsername("member1");
         user.setPassword("pass");
         user.setRole("MEMBER");
+        user.setCreatedAt(LocalDateTime.now());
         user = userRepository.save(user);
 
         Member member = new Member();
