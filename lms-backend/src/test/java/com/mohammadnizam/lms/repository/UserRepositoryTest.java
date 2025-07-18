@@ -1,6 +1,7 @@
 package com.mohammadnizam.lms.repository;
 
 import com.mohammadnizam.lms.model.User;
+import com.mohammadnizam.lms.model.Role;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -21,7 +22,7 @@ class UserRepositoryTest {
         User user = new User();
         user.setUsername("johndoe");
         user.setPassword("pass");
-        user.setRole("USER");
+        user.setRole(Role.MEMBER);
         user.setCreatedAt(LocalDateTime.now());
         user = userRepository.save(user);
 
