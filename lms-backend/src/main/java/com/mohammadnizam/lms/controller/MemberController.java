@@ -1,8 +1,11 @@
 package com.mohammadnizam.lms.controller;
 
+import com.mohammadnizam.lms.dto.MemberDto;
 import com.mohammadnizam.lms.model.Member;
 import com.mohammadnizam.lms.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,23 +18,38 @@ public class MemberController {
     private MemberRepository memberRepository;
 
     @GetMapping
-    public List<Member> getAllMembers() {
-        return memberRepository.findAll();
+    public ResponseEntity<List<MemberDto>> getAllMembers() {
+        List<MemberDto> list = memberRepository.findAll()
+                .stream()
+                .map(MemberDto::fromEntity)
+                .toList();
+        return ResponseEntity.ok(list);
     }
 
     @PostMapping
-    public Member createMember(@RequestBody Member member) {
-        return memberRepository.save(member);
+    public ResponseEntity<MemberDto> createMember(@RequestBody Member member) {
+        Member saved = memberRepository.save(member);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(MemberDto.fromEntity(saved));
     }
 
     @PutMapping("/{id}")
-    public Member updateMember(@PathVariable Integer id, @RequestBody Member member) {
+    public ResponseEntity<MemberDto> updateMember(@PathVariable Integer id,
+                                                  @RequestBody Member member) {
+        if (!memberRepository.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         member.setMemberId(id);
-        return memberRepository.save(member);
+        Member updated = memberRepository.save(member);
+        return ResponseEntity.ok(MemberDto.fromEntity(updated));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteMember(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteMember(@PathVariable Integer id) {
+        if (!memberRepository.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         memberRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

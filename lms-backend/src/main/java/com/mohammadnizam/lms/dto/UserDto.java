@@ -1,0 +1,26 @@
+package com.mohammadnizam.lms.dto;
+
+import com.mohammadnizam.lms.model.User;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserDto {
+    private Integer id;
+    private String username;
+    private String role;
+
+    public static UserDto fromEntity(User user) {
+        if (user == null) {
+            return null;
+        }
+        UserDto dto = new UserDto();
+        dto.setId(user.getId());
+        dto.setUsername(user.getUsername());
+        dto.setRole(user.getRole());
+        return dto;
+    }
+}
