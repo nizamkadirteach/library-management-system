@@ -1,2 +1,6 @@
 .DS_Store
 .DS_Store
+lms-frontend/node_modules/
+
+lms-frontend/dist/
+lms-frontend/.env
