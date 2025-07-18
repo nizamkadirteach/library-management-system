@@ -1,19 +1,11 @@
 package com.mohammadnizam.lms.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "members")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,4 +29,74 @@ public class Member {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Member() {
+    }
+
+    public Member(Integer memberId, String fullName, String contactInfo, String address,
+                  LocalDate membershipStart, LocalDate membershipEnd, User user) {
+        this.memberId = memberId;
+        this.fullName = fullName;
+        this.contactInfo = contactInfo;
+        this.address = address;
+        this.membershipStart = membershipStart;
+        this.membershipEnd = membershipEnd;
+        this.user = user;
+    }
+
+    public Integer getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Integer memberId) {
+        this.memberId = memberId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(String contactInfo) {
+        this.contactInfo = contactInfo;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public LocalDate getMembershipStart() {
+        return membershipStart;
+    }
+
+    public void setMembershipStart(LocalDate membershipStart) {
+        this.membershipStart = membershipStart;
+    }
+
+    public LocalDate getMembershipEnd() {
+        return membershipEnd;
+    }
+
+    public void setMembershipEnd(LocalDate membershipEnd) {
+        this.membershipEnd = membershipEnd;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
