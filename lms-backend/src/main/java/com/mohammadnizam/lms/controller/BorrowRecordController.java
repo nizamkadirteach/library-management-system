@@ -1,5 +1,6 @@
 package com.mohammadnizam.lms.controller;
 
+import com.mohammadnizam.lms.dto.BorrowRecordDto;
 import com.mohammadnizam.lms.model.Book;
 import com.mohammadnizam.lms.model.BorrowRecord;
 import com.mohammadnizam.lms.model.Member;
@@ -7,6 +8,8 @@ import com.mohammadnizam.lms.repository.BookRepository;
 import com.mohammadnizam.lms.repository.BorrowRecordRepository;
 import com.mohammadnizam.lms.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -29,21 +32,29 @@ public class BorrowRecordController {
     private BookRepository bookRepository;
 
     @GetMapping
-    public List<BorrowRecord> getAllRecords() {
-        return borrowRecordRepository.findAll();
+    public ResponseEntity<List<BorrowRecordDto>> getAllRecords() {
+        List<BorrowRecordDto> list = borrowRecordRepository.findAll()
+                .stream()
+                .map(BorrowRecordDto::fromEntity)
+                .toList();
+        return ResponseEntity.ok(list);
     }
 
     @GetMapping("/member/{memberId}")
-    public List<BorrowRecord> getRecordsByMember(@PathVariable Integer memberId) {
-        return borrowRecordRepository.findByMember_MemberId(memberId);
+    public ResponseEntity<List<BorrowRecordDto>> getRecordsByMember(@PathVariable Integer memberId) {
+        List<BorrowRecordDto> list = borrowRecordRepository.findByMember_MemberId(memberId)
+                .stream()
+                .map(BorrowRecordDto::fromEntity)
+                .toList();
+        return ResponseEntity.ok(list);
     }
 
     @PostMapping("/borrow")
-    public BorrowRecord borrowBook(@RequestParam Integer memberId, @RequestParam Integer bookId) {
+    public ResponseEntity<BorrowRecordDto> borrowBook(@RequestParam Integer memberId, @RequestParam Integer bookId) {
         Optional<Member> memberOpt = memberRepository.findById(memberId);
         Optional<Book> bookOpt = bookRepository.findById(bookId);
         if (memberOpt.isEmpty() || bookOpt.isEmpty()) {
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         Book book = bookOpt.get();
@@ -54,7 +65,7 @@ public class BorrowRecordController {
             }
             bookRepository.save(book);
         } else {
-            return null;
+            return ResponseEntity.badRequest().build();
         }
 
         BorrowRecord record = new BorrowRecord();
@@ -64,14 +75,16 @@ public class BorrowRecordController {
         record.setBorrowDate(borrowDate);
         record.setDueDate(borrowDate.plusDays(14));
         record.setFine(BigDecimal.ZERO);
-        return borrowRecordRepository.save(record);
+        BorrowRecord saved = borrowRecordRepository.save(record);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(BorrowRecordDto.fromEntity(saved));
     }
 
     @PutMapping("/return/{recordId}")
-    public BorrowRecord returnBook(@PathVariable Integer recordId) {
+    public ResponseEntity<BorrowRecordDto> returnBook(@PathVariable Integer recordId) {
         Optional<BorrowRecord> recordOpt = borrowRecordRepository.findById(recordId);
         if (recordOpt.isEmpty()) {
-            return null;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         BorrowRecord record = recordOpt.get();
         if (record.getReturnDate() == null) {
@@ -95,6 +108,6 @@ public class BorrowRecordController {
 
             borrowRecordRepository.save(record);
         }
-        return record;
+        return ResponseEntity.ok(BorrowRecordDto.fromEntity(record));
     }
 }

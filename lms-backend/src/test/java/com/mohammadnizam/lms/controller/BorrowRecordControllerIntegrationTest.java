@@ -92,8 +92,7 @@ class BorrowRecordControllerIntegrationTest {
                 .param("memberId", member.getMemberId().toString())
                 .param("bookId", book.getBookId().toString())
                 .header("Authorization", auth))
-                .andExpect(status().isOk())
-                .andExpect(content().string(""));
+                .andExpect(status().isBadRequest());
 
         assertThat(borrowRecordRepository.count()).isZero();
         Book updated = bookRepository.findById(book.getBookId()).orElseThrow();

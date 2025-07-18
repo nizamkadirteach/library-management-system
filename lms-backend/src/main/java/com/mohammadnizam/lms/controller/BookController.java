@@ -1,8 +1,11 @@
 package com.mohammadnizam.lms.controller;
 
+import com.mohammadnizam.lms.dto.BookDto;
 import com.mohammadnizam.lms.model.Book;
 import com.mohammadnizam.lms.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,34 +19,54 @@ public class BookController {
     private BookRepository bookRepository;
 
     @GetMapping
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public ResponseEntity<List<BookDto>> getAllBooks() {
+        List<BookDto> list = bookRepository.findAll()
+                .stream()
+                .map(BookDto::fromEntity)
+                .toList();
+        return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}")
-    public Book getBookById(@PathVariable Integer id) {
-        Optional<Book> book = bookRepository.findById(id);
-        return book.orElse(null);
+    public ResponseEntity<BookDto> getBookById(@PathVariable Integer id) {
+        return bookRepository.findById(id)
+                .map(b -> ResponseEntity.ok(BookDto.fromEntity(b)))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @GetMapping("/available")
-    public List<Book> getAvailableBooks() {
-        return bookRepository.findByStatus("AVAILABLE");
+    public ResponseEntity<List<BookDto>> getAvailableBooks() {
+        List<BookDto> list = bookRepository.findByStatus("AVAILABLE")
+                .stream()
+                .map(BookDto::fromEntity)
+                .toList();
+        return ResponseEntity.ok(list);
     }
 
     @PostMapping
-    public Book createBook(@RequestBody Book book) {
-        return bookRepository.save(book);
+    public ResponseEntity<BookDto> createBook(@RequestBody Book book) {
+        Book saved = bookRepository.save(book);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(BookDto.fromEntity(saved));
     }
 
     @PutMapping("/{id}")
-    public Book updateBook(@PathVariable Integer id, @RequestBody Book book) {
+    public ResponseEntity<BookDto> updateBook(@PathVariable Integer id,
+                                              @RequestBody Book book) {
+        if (!bookRepository.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         book.setBookId(id);
-        return bookRepository.save(book);
+        Book updated = bookRepository.save(book);
+        return ResponseEntity.ok(BookDto.fromEntity(updated));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBook(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteBook(@PathVariable Integer id) {
+        if (!bookRepository.existsById(id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         bookRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
