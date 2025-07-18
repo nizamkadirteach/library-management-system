@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import java.time.LocalDateTime;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -21,6 +22,7 @@ class UserRepositoryTest {
         user.setUsername("johndoe");
         user.setPassword("pass");
         user.setRole("USER");
+        user.setCreatedAt(LocalDateTime.now());
         user = userRepository.save(user);
 
         User found = userRepository.findByUsername("johndoe");

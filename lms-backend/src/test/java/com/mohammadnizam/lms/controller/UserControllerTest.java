@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.time.LocalDateTime;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,6 +34,7 @@ class UserControllerTest {
         user.setUsername("john");
         user.setPassword("pass");
         user.setRole("USER");
+        user.setCreatedAt(LocalDateTime.now());
         given(userRepository.findAll()).willReturn(List.of(user));
 
         mockMvc.perform(get("/api/users"))
