@@ -48,7 +48,55 @@ The system allows librarians to manage books and members, while members can sear
 
 ## 🗂️ Folder Structure
 
-<pre> library-management-system/ ├── backend/ │ ├── src/ │ │ └── main/ │ │ └── java/ │ │ └── com/ │ │ └── lms/ │ │ ├── controller/ │ │ ├── model/ │ │ ├── repository/ │ │ ├── service/ │ │ ├── config/ │ │ └── LibraryManagementApplication.java │ ├── resources/ │ │ ├── application.properties │ │ └── static/ │ └── pom.xml ├── frontend/ │ ├── public/ │ ├── src/ │ │ ├── components/ │ │ ├── pages/ │ │ ├── services/ │ │ ├── App.js │ │ └── index.js │ ├── package.json │ └── .env ├── sql/ │ ├── create_tables.sql │ ├── insert_sample_data.sql │ └── erd_diagram.png ├── README.md └── .gitignore </pre>
+The project is organised into the following main directories:
+
+backend/ – Contains the Spring Boot backend application.
+
+controller/ – REST API endpoints like BookController.java.
+
+service/ – Business logic classes like BookService.java.
+
+repository/ – JPA repository interfaces for database access.
+
+model/ – Entity classes mapped to MySQL tables.
+
+config/ – Security configuration (e.g., JWT, WebSecurityConfig).
+
+LibraryManagementApplication.java – Spring Boot main class.
+
+resources/ – Includes application.properties and static resources.
+
+frontend/ – React frontend application.
+
+components/ – UI elements like navigation bars and book cards.
+
+pages/ – Page-level views like LoginPage and AdminDashboard.
+
+services/ – API service calls using Axios.
+
+App.js, index.js – React entry and routing.
+
+public/ – Static assets.
+
+package.json – Frontend project dependencies.
+
+sql/ – SQL-related files.
+
+create_tables.sql – Script to create MySQL tables.
+
+insert_sample_data.sql – Example data for testing.
+
+erd_diagram.png – Entity Relationship Diagram (ERD) image.
+
+Project root files:
+
+README.md – Project documentation.
+
+.gitignore – Git exclusions.
+
+docs/ – (Optional) BRD, SRS, and user manual.
+
+
 
 
 ---
