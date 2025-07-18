@@ -4,6 +4,8 @@ import com.mohammadnizam.lms.model.Book;
 import com.mohammadnizam.lms.model.BorrowRecord;
 import com.mohammadnizam.lms.model.Member;
 import com.mohammadnizam.lms.model.User;
+import com.mohammadnizam.lms.model.Role;
+import com.mohammadnizam.lms.model.BookStatus;
 import com.mohammadnizam.lms.repository.BookRepository;
 import com.mohammadnizam.lms.repository.BorrowRecordRepository;
 import com.mohammadnizam.lms.repository.MemberRepository;
@@ -54,7 +56,7 @@ class BorrowRecordControllerIntegrationTest {
         User user = new User();
         user.setUsername("member1");
         user.setPassword("pass");
-        user.setRole("MEMBER");
+        user.setRole(Role.MEMBER);
         user.setCreatedAt(LocalDateTime.now());
         user = userRepository.save(user);
 
@@ -85,7 +87,7 @@ class BorrowRecordControllerIntegrationTest {
         book.setCategory("Fiction");
         book.setPublicationYear(2023);
         book.setCopiesAvailable(0);
-        book.setStatus("BORROWED");
+        book.setStatus(BookStatus.BORROWED);
         book = bookRepository.save(book);
 
         mockMvc.perform(post("/api/borrow-records/borrow")
@@ -111,7 +113,7 @@ class BorrowRecordControllerIntegrationTest {
         book.setCategory("Fiction");
         book.setPublicationYear(2023);
         book.setCopiesAvailable(0);
-        book.setStatus("BORROWED");
+        book.setStatus(BookStatus.BORROWED);
         book = bookRepository.save(book);
 
         BorrowRecord record = new BorrowRecord();
@@ -132,6 +134,6 @@ class BorrowRecordControllerIntegrationTest {
 
         Book returnedBook = bookRepository.findById(book.getBookId()).orElseThrow();
         assertThat(returnedBook.getCopiesAvailable()).isEqualTo(1);
-        assertThat(returnedBook.getStatus()).isEqualTo("AVAILABLE");
+        assertThat(returnedBook.getStatus()).isEqualTo(BookStatus.AVAILABLE);
     }
 }

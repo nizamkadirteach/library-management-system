@@ -1,6 +1,7 @@
 package com.mohammadnizam.lms.controller;
 
 import com.mohammadnizam.lms.model.User;
+import com.mohammadnizam.lms.model.Role;
 import com.mohammadnizam.lms.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ class UserControllerTest {
         user.setId(1);
         user.setUsername("john");
         user.setPassword("pass");
-        user.setRole("USER");
+        user.setRole(Role.MEMBER);
         user.setCreatedAt(LocalDateTime.now());
         given(userRepository.findAll()).willReturn(List.of(user));
 
