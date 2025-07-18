@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
     List<Book> findByStatusOrCategory(String status, String category);
+    List<Book> findByStatus(String status);
 }
