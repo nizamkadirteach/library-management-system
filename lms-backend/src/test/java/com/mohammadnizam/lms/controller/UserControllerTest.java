@@ -3,12 +3,15 @@ package com.mohammadnizam.lms.controller;
 import com.mohammadnizam.lms.model.User;
 import com.mohammadnizam.lms.model.Role;
 import com.mohammadnizam.lms.repository.UserRepository;
+import com.mohammadnizam.lms.security.JwtAuthenticationFilter;
+import com.mohammadnizam.lms.security.JwtUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
@@ -31,6 +34,14 @@ class UserControllerTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @MockBean
+    private JwtUtil jwtUtil;
+
+    // JwtAuthenticationFilter isn't needed for these tests but declaring it
+    // avoids component scan failures when the filter is picked up.
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @TestConfiguration
     static class MockConfig {
