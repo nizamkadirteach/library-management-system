@@ -20,7 +20,9 @@ public class UserDto {
         UserDto dto = new UserDto();
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
-        dto.setRole(user.getRole());
+        if (user.getRole() != null) {
+            dto.setRole(user.getRole().name());
+        }
         return dto;
     }
 }

@@ -30,7 +30,9 @@ public class BookDto {
         dto.setCategory(book.getCategory());
         dto.setPublicationYear(book.getPublicationYear());
         dto.setCopiesAvailable(book.getCopiesAvailable());
-        dto.setStatus(book.getStatus());
+        if (book.getStatus() != null) {
+            dto.setStatus(book.getStatus().name());
+        }
         return dto;
     }
 }
