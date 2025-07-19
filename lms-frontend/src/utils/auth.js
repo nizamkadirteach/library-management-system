@@ -8,3 +8,7 @@ export function getUserRole() {
     return null
   }
 }
+
+export function logout() {
+  localStorage.removeItem('token')
+}
