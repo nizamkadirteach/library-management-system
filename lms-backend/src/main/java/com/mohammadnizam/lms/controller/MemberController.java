@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.util.List;
 
@@ -75,5 +76,14 @@ public class MemberController {
         }
         memberRepository.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<MemberDto> getMyMember(
+            @AuthenticationPrincipal(expression = "username") String username) {
+        return memberRepository
+                .findByUser_Username(username)
+                .map(member -> ResponseEntity.ok(MemberDto.fromEntity(member)))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 }

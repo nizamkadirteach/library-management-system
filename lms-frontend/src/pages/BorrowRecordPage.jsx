@@ -8,7 +8,7 @@ import ReturnIcon from '../assets/icons/ReturnIcon'
 
 export default function BorrowRecordPage() {
   const [records, setRecords] = useState([])
-  const [memberId, setMemberId] = useState('')
+  const [memberId, setMemberId] = useState(null)
   const [bookId, setBookId] = useState('')
   const [search, setSearch] = useState({ title: '', startDate: '', endDate: '' })
 
@@ -23,6 +23,15 @@ export default function BorrowRecordPage() {
 
   useEffect(() => {
     fetchRecords()
+    const fetchMember = async () => {
+      try {
+        const { data } = await api.get('/members/me')
+        setMemberId(data.memberId)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    fetchMember()
   }, [])
 
   const handleBorrow = async (e) => {
@@ -31,7 +40,6 @@ export default function BorrowRecordPage() {
       await api.post('/borrow-records/borrow', null, {
         params: { memberId, bookId },
       })
-      setMemberId('')
       setBookId('')
       fetchRecords()
     } catch (err) {
@@ -104,13 +112,6 @@ export default function BorrowRecordPage() {
         </Button>
       </form>
       <form onSubmit={handleBorrow} className="flex gap-2 flex-wrap">
-        <input
-          type="number"
-          placeholder="Member ID"
-          value={memberId}
-          onChange={(e) => setMemberId(e.target.value)}
-          className="border p-2 rounded"
-        />
         <input
           type="number"
           placeholder="Book ID"
