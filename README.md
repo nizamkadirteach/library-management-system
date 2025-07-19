@@ -1,126 +1,68 @@
-# 📚 Library Management System (LMS) – Capstone Project
+# Library Management System (LMS)
 
-> Developed as part of the Full Stack Web Development Programme at NTUC LearningHub.
+**Project Title:** Library Management System (LMS)
 
-## 🧠 Overview
+**Course:** Full Stack Web Development – Capstone
 
-The **Library Management System (LMS)** is a full-stack web application designed to streamline library operations and enhance user experience. It supports two user roles: **Librarian (Admin)** and **Member**.
+**Developer:** Mohammad Nizam Bin Abdul Kadir
 
-The system allows librarians to manage books and members, while members can search, borrow, return books, and track their borrowing history.
-
----
-
-## 🚀 Features
-
-### 👤 User Management
-- User registration and login (JWT-based)
-- Role-based access: Admin vs Member
-- Profile management and password reset
-
-### 📚 Book Management (Admin)
-- Add, update, and delete books
-- View availability, categories, and reservation status
-
-### 🙋 Member Management
-- Register, edit, or delete member profiles
-- Search members by name or ID
-- View borrowing history
-
-### 📦 Lending Management
-- Borrow and return books
-- Reserve books
-- Automatic fine calculation for overdue books
-- Max 3 books per member, 14-day loan, 2 renewals
+**Date:** 18 July 2025
 
 ---
 
-## 🛠️ Tech Stack
+## Overview
+The LMS is a full-stack web application that automates core library operations such as catalog management, user registration and borrowing workflows. It supports two roles: **Librarian (Admin)** and **Member**. The backend is built with Spring Boot and MySQL, while the frontend uses React.
 
-| Layer      | Technology                   |
-|------------|------------------------------|
-| Frontend   | React, React Router, Axios, Bootstrap |
-| Backend    | Spring Boot, JPA/Hibernate, Spring Security |
-| Database   | MySQL (ERD included)         |
-| Auth       | JWT Token-based authentication |
-| Tools      | Git, Postman, VS Code        |
+## Business Requirements Highlights
+- Automate book inventory and lending processes
+- Role-based access with registration and login
+- Admin features to manage books and members
+- Enforce lending limits and overdue fines ($0.50/day up to $20)
+- Block borrowing when users have outstanding fines or overdues
 
----
+## Software Requirements
+- Backend: Java 21, Spring Boot 3.5+, MySQL 9+
+- Frontend: React (Vite), Axios, Bootstrap
+- Authentication via JWT tokens
+- Tools: Git and Postman
 
-## 🗂️ Folder Structure
+## System Design Summary
+Architecture follows MVC with REST APIs.
 
-The project is organised into the following main directories:
+```
+[React UI] <--Axios--> [Spring Boot REST API] <--JPA--> [MySQL DB]
+                           |
+                        [Spring Security + JWT]
+```
 
-backend/ – Contains the Spring Boot backend application.
+Entities include `users`, `books`, `members`, `borrow_transactions` and `reservations`. The SQL schema resides in `sql/create_tables.sql`.
 
-controller/ – REST API endpoints like BookController.java.
+## Repository Structure
+- `lms-backend/` – Spring Boot backend application
+- `lms-frontend/` – React frontend
+- `sql/` – Database creation scripts
 
-service/ – Business logic classes like BookService.java.
+## Setup
+1. Create the database `lms_db` and run `sql/create_tables.sql`.
+2. Start the backend:
+   ```bash
+   cd lms-backend
+   ./mvnw spring-boot:run
+   ```
+3. Start the frontend:
+   ```bash
+   cd lms-frontend
+   npm install
+   npm run dev
+   ```
+4. Open `http://localhost:5173` in a browser.
 
-repository/ – JPA repository interfaces for database access.
+## Tests
+Backend unit tests can be executed with:
+```bash
+cd lms-backend
+mvn test
+```
 
-model/ – Entity classes mapped to MySQL tables.
-
-config/ – Security configuration (e.g., JWT, WebSecurityConfig).
-
-LibraryManagementApplication.java – Spring Boot main class.
-
-resources/ – Includes application.properties and static resources.
-
-frontend/ – React frontend application.
-
-components/ – UI elements like navigation bars and book cards.
-
-pages/ – Page-level views like LoginPage and AdminDashboard.
-
-services/ – API service calls using Axios.
-
-App.js, index.js – React entry and routing.
-
-public/ – Static assets.
-
-package.json – Frontend project dependencies.
-
-sql/ – SQL-related files.
-
-create_tables.sql – Script to create MySQL tables.
-
-insert_sample_data.sql – Example data for testing.
-
-erd_diagram.png – Entity Relationship Diagram (ERD) image.
-
-Project root files:
-
-README.md – Project documentation.
-
-.gitignore – Git exclusions.
-
-docs/ – (Optional) BRD, SRS, and user manual.
-
-
-
-
----
-
-## ⚙️ Setup Instructions
-
-1. Clone this repo
-2. Start MySQL and import the provided SQL scripts
-3. Run the backend (Spring Boot): `./mvnw spring-boot:run`
-4. Start the frontend (React): `npm start`
-5. Open in browser: `http://localhost:3000`
-
----
-
-## 💡 Screenshots
-
-_Add screenshots of:_
-- Admin Dashboard
-- Book Management
-- Member Borrowing History
-- Login/Register Forms
-
----
-
-## 📑 License
-
-This project is built for educational purposes only under NTUC LearningHub Capstone guidance.
+## License
+Educational use only under NTUC LearningHub guidance.
