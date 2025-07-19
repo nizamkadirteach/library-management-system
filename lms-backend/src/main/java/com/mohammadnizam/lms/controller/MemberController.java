@@ -28,6 +28,17 @@ public class MemberController {
         return ResponseEntity.ok(list);
     }
 
+    @GetMapping("/search")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<MemberDto>> searchMembers(@RequestParam(required = false) String name) {
+        String n = name != null ? name : "";
+        List<MemberDto> list = memberRepository.findByFullNameContainingIgnoreCase(n)
+                .stream()
+                .map(MemberDto::fromEntity)
+                .toList();
+        return ResponseEntity.ok(list);
+    }
+
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<MemberDto> createMember(@RequestBody Member member) {

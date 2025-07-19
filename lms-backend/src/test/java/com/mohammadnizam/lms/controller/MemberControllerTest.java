@@ -73,4 +73,17 @@ class MemberControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.memberId").value(1));
     }
+
+    @Test
+    void searchMembers_returnsList() throws Exception {
+        Member member = new Member();
+        member.setMemberId(2);
+        member.setFullName("Alice");
+        given(memberRepository.findByFullNameContainingIgnoreCase("Alice"))
+                .willReturn(List.of(member));
+
+        mockMvc.perform(get("/api/members/search").param("name", "Alice"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].fullName").value("Alice"));
+    }
 }
