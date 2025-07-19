@@ -30,19 +30,23 @@ public class BorrowRecord {
     @Column(name = "return_date")
     private LocalDate returnDate;
 
+    @Column(name = "renewal_count")
+    private Integer renewalCount;
+
     private BigDecimal fine;
 
     public BorrowRecord() {
     }
 
     public BorrowRecord(Integer recordId, Member member, Book book, LocalDate borrowDate,
-                        LocalDate dueDate, LocalDate returnDate, BigDecimal fine) {
+                        LocalDate dueDate, LocalDate returnDate, Integer renewalCount, BigDecimal fine) {
         this.recordId = recordId;
         this.member = member;
         this.book = book;
         this.borrowDate = borrowDate;
         this.dueDate = dueDate;
         this.returnDate = returnDate;
+        this.renewalCount = renewalCount;
         this.fine = fine;
     }
 
@@ -92,6 +96,14 @@ public class BorrowRecord {
 
     public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
+    }
+
+    public Integer getRenewalCount() {
+        return renewalCount;
+    }
+
+    public void setRenewalCount(Integer renewalCount) {
+        this.renewalCount = renewalCount;
     }
 
     public BigDecimal getFine() {

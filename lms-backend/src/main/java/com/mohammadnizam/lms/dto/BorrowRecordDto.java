@@ -13,18 +13,20 @@ public class BorrowRecordDto {
     private LocalDate dueDate;
     private LocalDate returnDate;
     private BigDecimal fine;
+    private Integer renewalCount;
 
     public BorrowRecordDto() {
     }
 
     public BorrowRecordDto(Integer recordId, Integer memberId, Integer bookId, LocalDate borrowDate,
-                           LocalDate dueDate, LocalDate returnDate, BigDecimal fine) {
+                           LocalDate dueDate, LocalDate returnDate, Integer renewalCount, BigDecimal fine) {
         this.recordId = recordId;
         this.memberId = memberId;
         this.bookId = bookId;
         this.borrowDate = borrowDate;
         this.dueDate = dueDate;
         this.returnDate = returnDate;
+        this.renewalCount = renewalCount;
         this.fine = fine;
     }
 
@@ -76,6 +78,14 @@ public class BorrowRecordDto {
         this.returnDate = returnDate;
     }
 
+    public Integer getRenewalCount() {
+        return renewalCount;
+    }
+
+    public void setRenewalCount(Integer renewalCount) {
+        this.renewalCount = renewalCount;
+    }
+
     public BigDecimal getFine() {
         return fine;
     }
@@ -99,6 +109,7 @@ public class BorrowRecordDto {
         dto.setBorrowDate(record.getBorrowDate());
         dto.setDueDate(record.getDueDate());
         dto.setReturnDate(record.getReturnDate());
+        dto.setRenewalCount(record.getRenewalCount());
         dto.setFine(record.getFine());
         return dto;
     }

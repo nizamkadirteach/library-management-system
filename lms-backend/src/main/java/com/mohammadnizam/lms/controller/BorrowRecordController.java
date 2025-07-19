@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -58,6 +59,13 @@ public class BorrowRecordController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
+        long active = borrowRecordRepository.countByMember_MemberIdAndReturnDateIsNull(memberId);
+        boolean hasFine = borrowRecordRepository.existsByMember_MemberIdAndFineGreaterThan(memberId, BigDecimal.ZERO);
+        boolean hasOverdue = borrowRecordRepository.existsByMember_MemberIdAndDueDateBeforeAndReturnDateIsNull(memberId, LocalDate.now());
+        if (active >= 5 || hasFine || hasOverdue) {
+            return ResponseEntity.badRequest().build();
+        }
+
         Book book = bookOpt.get();
         if (book.getCopiesAvailable() != null && book.getCopiesAvailable() > 0) {
             book.setCopiesAvailable(book.getCopiesAvailable() - 1);
@@ -75,6 +83,7 @@ public class BorrowRecordController {
         LocalDate borrowDate = LocalDate.now();
         record.setBorrowDate(borrowDate);
         record.setDueDate(borrowDate.plusDays(14));
+        record.setRenewalCount(0);
         record.setFine(BigDecimal.ZERO);
         BorrowRecord saved = borrowRecordRepository.save(record);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -93,7 +102,11 @@ public class BorrowRecordController {
             record.setReturnDate(returnDate);
             if (record.getDueDate() != null && returnDate.isAfter(record.getDueDate())) {
                 long daysOverdue = ChronoUnit.DAYS.between(record.getDueDate(), returnDate);
-                record.setFine(BigDecimal.valueOf(daysOverdue));
+                BigDecimal fine = BigDecimal.valueOf(daysOverdue * 0.5).setScale(2, RoundingMode.HALF_UP);
+                if (fine.compareTo(BigDecimal.valueOf(20)) > 0) {
+                    fine = BigDecimal.valueOf(20);
+                }
+                record.setFine(fine);
             } else {
                 record.setFine(BigDecimal.ZERO);
             }
@@ -109,6 +122,28 @@ public class BorrowRecordController {
 
             borrowRecordRepository.save(record);
         }
+        return ResponseEntity.ok(BorrowRecordDto.fromEntity(record));
+    }
+
+    @PutMapping("/renew/{recordId}")
+    public ResponseEntity<BorrowRecordDto> renewBook(@PathVariable Integer recordId) {
+        Optional<BorrowRecord> recordOpt = borrowRecordRepository.findById(recordId);
+        if (recordOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        BorrowRecord record = recordOpt.get();
+        if (record.getReturnDate() != null) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (record.getRenewalCount() == null) {
+            record.setRenewalCount(0);
+        }
+        if (record.getRenewalCount() >= 2) {
+            return ResponseEntity.badRequest().build();
+        }
+        record.setRenewalCount(record.getRenewalCount() + 1);
+        record.setDueDate(record.getDueDate().plusDays(14));
+        borrowRecordRepository.save(record);
         return ResponseEntity.ok(BorrowRecordDto.fromEntity(record));
     }
 }
