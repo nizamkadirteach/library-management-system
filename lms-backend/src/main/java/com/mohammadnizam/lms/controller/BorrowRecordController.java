@@ -87,6 +87,24 @@ public class BorrowRecordController {
         return ResponseEntity.ok(list);
     }
 
+    @GetMapping("/my/search")
+    public ResponseEntity<List<BorrowRecordDto>> searchMyRecords(
+            @AuthenticationPrincipal(expression = "username") String username,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) LocalDate startDate,
+            @RequestParam(required = false) LocalDate endDate) {
+        Optional<Member> memberOpt = memberRepository.findByUser_Username(username);
+        if (memberOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        List<BorrowRecordDto> list = borrowRecordRepository
+                .searchByMemberAndFilters(memberOpt.get().getMemberId(), title, startDate, endDate)
+                .stream()
+                .map(BorrowRecordDto::fromEntity)
+                .toList();
+        return ResponseEntity.ok(list);
+    }
+
     @PostMapping("/borrow")
     public ResponseEntity<BorrowRecordDto> borrowBook(@RequestParam Integer memberId, @RequestParam Integer bookId) {
         Optional<Member> memberOpt = memberRepository.findById(memberId);

@@ -22,4 +22,16 @@ public interface BorrowRecordRepository extends JpaRepository<BorrowRecord, Inte
 
     @Query("SELECT COALESCE(SUM(br.fine), 0) FROM BorrowRecord br WHERE br.member.memberId = :memberId AND br.fine > 0")
     BigDecimal sumOutstandingFinesByMemberId(@Param("memberId") Integer memberId);
+
+    @Query("""
+            SELECT br FROM BorrowRecord br
+            WHERE br.member.memberId = :memberId
+              AND (:title IS NULL OR lower(br.book.title) LIKE lower(concat('%', :title, '%')))
+              AND (:startDate IS NULL OR br.borrowDate >= :startDate)
+              AND (:endDate IS NULL OR br.borrowDate <= :endDate)
+            """)
+    List<BorrowRecord> searchByMemberAndFilters(@Param("memberId") Integer memberId,
+                                               @Param("title") String title,
+                                               @Param("startDate") LocalDate startDate,
+                                               @Param("endDate") LocalDate endDate);
 }
