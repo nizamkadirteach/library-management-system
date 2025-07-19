@@ -4,6 +4,7 @@ import api from '../api/axios'
 import Button from '../components/ui/Button'
 import Card from '../components/ui/Card'
 import UserIcon from '../assets/icons/UserIcon'
+import Logo from '../components/common/Logo'
 
 export default function LoginPage() {
   const [username, setUsername] = useState('')
@@ -24,6 +25,8 @@ export default function LoginPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background p-4">
+      {/* ✅ Logo added above login form */}
+      <Logo size="medium" variant="auth" />
       {/* ⬆️ Improved: card container with theming */}
       <Card className="w-full max-w-sm space-y-4">
         <h2 className="text-2xl font-bold text-center flex items-center justify-center gap-2">

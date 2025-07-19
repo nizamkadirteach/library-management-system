@@ -5,6 +5,7 @@ import Button from '../components/ui/Button'
 import Card from '../components/ui/Card'
 import SearchIcon from '../assets/icons/SearchIcon'
 import BookIcon from '../assets/icons/BookIcon'
+import Logo from '../components/common/Logo'
 
 export default function BookListPage() {
   const [books, setBooks] = useState([])
@@ -47,6 +48,8 @@ export default function BookListPage() {
 
   return (
     <div className="space-y-4">
+      {/* ✅ Logo added to book list */}
+      <Logo size="small" variant="navbar" />
       <h1 className="text-2xl font-bold">Books</h1>
       <div className="flex flex-col gap-3">
         <form onSubmit={handleSearch} className="flex flex-wrap gap-2">
