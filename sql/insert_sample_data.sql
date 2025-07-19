@@ -1,9 +1,9 @@
 -- Sample data for 'users' table
 INSERT INTO users (username, password, role) VALUES
-('admin', 'admin123', 'ADMIN'),
-('alice', 'alice123', 'MEMBER'),
-('bob', 'bob123', 'MEMBER'),
-('charlie', 'charlie123', 'MEMBER');
+('admin', '$2b$12$D87ncK5xdIBLlfOJEDUSZeaunRDd1Dj1nJ8xqBEunO1RmIiij.N.O', 'ADMIN'),
+('alice', '$2b$12$jWyxMTgy1wpRc8pGLgLp3uXZclfLVKvU5LKuWKp82EYPfKjOpAV/m', 'MEMBER'),
+('bob', '$2b$12$bFhAvB9RVb26prdkU8StsuCixSPZj13MM4xD2egc3C7/1S7oZmeJu', 'MEMBER'),
+('charlie', '$2b$12$2Y93II1QMvReyQWpN.nJlueKhTdABX7nz6D.mtywUCtNY7S9GrMke', 'MEMBER');
 
 -- Sample data for 'members' table
 INSERT INTO members (user_id, full_name, address, contact_info, membership_start, membership_end) VALUES
