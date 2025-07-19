@@ -10,18 +10,29 @@ export default function BorrowPage() {
   const [books, setBooks] = useState([])
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [activeCount, setActiveCount] = useState(0)
+  const [hasOverdue, setHasOverdue] = useState(false)
+  const [totalFine, setTotalFine] = useState(0)
+  const loadMember = useCallback(async () => {
+    try {
+      const { data } = await api.get('/members/me')
+      setMemberId(data.memberId)
+      // 🧠 Fetch current borrow status for restrictions
+      const recordsRes = await api.get('/borrow-records/my')
+      const records = recordsRes.data || []
+      const active = records.filter((r) => r.returnDate == null)
+      setActiveCount(active.length)
+      setHasOverdue(active.some((r) => new Date(r.dueDate) < new Date()))
+      const fineRes = await api.get(`/fines/${data.memberId}`)
+      setTotalFine(parseFloat(fineRes.data))
+    } catch (err) {
+      console.error(err)
+    }
+  }, [])
 
   useEffect(() => {
-    const loadMember = async () => {
-      try {
-        const { data } = await api.get('/members/me')
-        setMemberId(data.memberId)
-      } catch (err) {
-        console.error(err)
-      }
-    }
     loadMember()
-  }, [])
+  }, [loadMember])
 
   const fetchBooks = useCallback(async () => {
     setLoading(true)
@@ -46,6 +57,7 @@ export default function BorrowPage() {
       await api.post('/borrow-records/borrow', null, { params: { memberId, bookId } })
       setMessage('Borrowed successfully')
       fetchBooks()
+      loadMember()
     } catch (err) {
       console.error(err)
       setMessage('Failed to borrow')
@@ -58,17 +70,25 @@ export default function BorrowPage() {
       await api.post('/reservations', null, { params: { memberId, bookId } })
       setMessage('Reserved successfully')
       fetchBooks()
+      loadMember()
     } catch (err) {
       console.error(err)
       setMessage('Failed to reserve')
     }
   }
 
+  const canBorrow = activeCount < 3 && !hasOverdue && totalFine <= 10
+
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold flex items-center gap-2">
         <BorrowIcon className="w-6 h-6" /> Borrow Books
       </h1>
+      {!canBorrow && (
+        <div className="p-2 bg-red-100 text-red-700 rounded" role="alert">
+          You cannot borrow right now due to outstanding limits or fines.
+        </div>
+      )}
       <div className="grid gap-2 sm:grid-cols-3">
         <input
           type="text"
@@ -101,22 +121,31 @@ export default function BorrowPage() {
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
         {books.map((book) => (
           <BookCard key={book.bookId} book={book}>
-            {book.status === 'AVAILABLE' ? (
+            {book.status === 'AVAILABLE' && (
               <button
                 type="button"
                 onClick={() => handleBorrow(book.bookId)}
-                className="mt-2 bg-primary text-white px-3 py-1 rounded flex items-center gap-1"
+                disabled={!canBorrow}
+                className="mt-2 bg-primary text-white px-3 py-1 rounded flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <BorrowIcon className="w-4 h-4" /> Borrow
               </button>
-            ) : (
+            )}
+            {book.status === 'BORROWED' && (
               <button
                 type="button"
                 onClick={() => handleReserve(book.bookId)}
-                className="mt-2 bg-secondary text-white px-3 py-1 rounded flex items-center gap-1"
+                disabled={!canBorrow}
+                className="mt-2 bg-secondary text-white px-3 py-1 rounded flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ReturnIcon className="w-4 h-4" /> Reserve
               </button>
+            )}
+            {!canBorrow && (
+              <p className="text-xs text-red-600 mt-1" role="alert">
+                {/* ⚠️ Disabled borrow button if fine exceeds threshold */}
+                Borrowing disabled due to account status
+              </p>
             )}
           </BookCard>
         ))}

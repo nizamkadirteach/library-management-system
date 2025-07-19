@@ -22,6 +22,12 @@ export default function AdminDashboard() {
     fetchData()
   }, [])
 
+  const isBlocked = (rec) => {
+    const overdue = new Date(rec.dueDate) < new Date()
+    const fine = parseFloat(rec.fine || 0)
+    return overdue || fine > 10
+  }
+
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold flex items-center gap-2">
@@ -34,10 +40,13 @@ export default function AdminDashboard() {
           {records.map((r) => (
             <Card
               key={r.recordId}
-              className="flex justify-between items-center"
+              className={`flex justify-between items-center ${isBlocked(r) ? 'border-red-300 ring-1 ring-red-300' : ''}`}
             >
               <span>
                 Member {r.memberId} &ndash; Book {r.bookId} (due {r.dueDate})
+                {isBlocked(r) && (
+                  <span className="text-red-600 text-xs ml-2">Blocked</span>
+                )}
               </span>
               <FineNotice amount={r.fine || 0} />
             </Card>
