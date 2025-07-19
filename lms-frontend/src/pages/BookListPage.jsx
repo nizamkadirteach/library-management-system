@@ -4,7 +4,11 @@ import BookForm from '../components/BookForm'
 
 export default function BookListPage() {
   const [books, setBooks] = useState([])
-  const [query, setQuery] = useState('')
+  const [search, setSearch] = useState({
+    title: '',
+    author: '',
+    category: '',
+  })
   const [showAdd, setShowAdd] = useState(false)
   const [editBook, setEditBook] = useState(null)
 
@@ -25,7 +29,11 @@ export default function BookListPage() {
     e.preventDefault()
     try {
       const { data } = await api.get('/books/search', {
-        params: { title: query },
+        params: {
+          title: search.title,
+          author: search.author,
+          category: search.category,
+        },
       })
       setBooks(data)
     } catch (err) {
@@ -41,11 +49,28 @@ export default function BookListPage() {
           <input
             type="text"
             placeholder="Search by title"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            value={search.title}
+            onChange={(e) => setSearch({ ...search, title: e.target.value })}
             className="border p-1 flex-1"
           />
-          <button type="submit" className="bg-blue-500 text-white px-4 py-1 rounded">
+          <input
+            type="text"
+            placeholder="Author"
+            value={search.author}
+            onChange={(e) => setSearch({ ...search, author: e.target.value })}
+            className="border p-1 flex-1"
+          />
+          <input
+            type="text"
+            placeholder="Category"
+            value={search.category}
+            onChange={(e) => setSearch({ ...search, category: e.target.value })}
+            className="border p-1 flex-1"
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-1 rounded"
+          >
             Search
           </button>
         </form>
@@ -59,7 +84,13 @@ export default function BookListPage() {
       </div>
       {showAdd && (
         <div className="mb-4">
-          <BookForm onSuccess={() => { setShowAdd(false); fetchBooks(); }} onCancel={() => setShowAdd(false)} />
+          <BookForm
+            onSuccess={() => {
+              setShowAdd(false)
+              fetchBooks()
+            }}
+            onCancel={() => setShowAdd(false)}
+          />
         </div>
       )}
       <ul className="space-y-2">
@@ -78,7 +109,10 @@ export default function BookListPage() {
               <div className="mt-2">
                 <BookForm
                   book={editBook}
-                  onSuccess={() => { setEditBook(null); fetchBooks(); }}
+                  onSuccess={() => {
+                    setEditBook(null)
+                    fetchBooks()
+                  }}
                   onCancel={() => setEditBook(null)}
                 />
               </div>
