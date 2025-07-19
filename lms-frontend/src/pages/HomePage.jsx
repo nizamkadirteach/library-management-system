@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import api from '../api/axios'
 import Button from '../components/ui/Button'
@@ -7,6 +7,9 @@ import UserIcon from '../assets/icons/UserIcon'
 import RecordIcon from '../assets/icons/RecordIcon'
 import SearchIcon from '../assets/icons/SearchIcon'
 import Card from '../components/ui/Card'
+import BookCard from '../components/BookCard'
+import BorrowIcon from '../assets/icons/BorrowIcon'
+import ReturnIcon from '../assets/icons/ReturnIcon'
 import Logo from '../components/common/Logo'
 
 export default function HomePage() {
@@ -14,20 +17,72 @@ export default function HomePage() {
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
   const [searched, setSearched] = useState(false)
+  const [memberId, setMemberId] = useState(null)
+  const [records, setRecords] = useState([])
 
-  const handleSearch = async (e) => {
-    e.preventDefault()
+  const loadUserData = useCallback(async () => {
+    const token = localStorage.getItem('token')
+    if (!token) return
+    try {
+      const { data: member } = await api.get('/members/me')
+      setMemberId(member.memberId)
+      const res = await api.get('/borrow-records/my')
+      setRecords(res.data || [])
+    } catch (err) {
+      console.error(err)
+    }
+  }, [])
+
+  const fetchResults = useCallback(async () => {
     if (!query.trim()) return
     setLoading(true)
     setSearched(true)
     try {
-      // 🔍 Fetch books by title from backend
-      const { data } = await api.get('/books', { params: { title: query } })
+      const { data } = await api.get('/books/search', { params: { title: query } })
       setResults(data)
+      loadUserData()
     } catch (err) {
       console.error(err)
     } finally {
       setLoading(false)
+    }
+  }, [query, loadUserData])
+
+  useEffect(() => {
+    loadUserData()
+  }, [loadUserData])
+
+  const handleSearch = async (e) => {
+    e.preventDefault()
+    fetchResults()
+  }
+
+  const handleBorrow = async (bookId) => {
+    if (!memberId) return
+    try {
+      await api.post('/borrow-records/borrow', null, { params: { memberId, bookId } })
+      await fetchResults()
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const handleReserve = async (bookId) => {
+    if (!memberId) return
+    try {
+      await api.post('/reservations', null, { params: { memberId, bookId } })
+      await fetchResults()
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const handleReturn = async (recordId) => {
+    try {
+      await api.put(`/borrow-records/return/${recordId}`)
+      await fetchResults()
+    } catch (err) {
+      console.error(err)
     }
   }
 
@@ -95,21 +150,45 @@ export default function HomePage() {
             </div>
           )}
           {!loading &&
-            results.map((book) => (
-              <Link key={book.bookId} to={`/book/${book.bookId}`}>
-                {' '}
-                {/* 🔗 Each result links to BookDetailPage */}
-                <Card className="cursor-pointer h-full hover:shadow-lg transition">
-                  <h3 className="font-semibold text-lg">{book.title}</h3>
-                  <p className="text-sm text-gray-600">by {book.author}</p>
-                  <p className="text-xs mt-1">
-                    {book.copiesAvailable > 0
-                      ? `${book.copiesAvailable} copies available`
-                      : 'Unavailable'}
-                  </p>
-                </Card>
-              </Link>
-            ))}
+            results.map((book) => {
+              const record = records.find(
+                (r) => r.bookId === book.bookId && r.returnDate == null
+              )
+              return (
+                <BookCard key={book.bookId} book={book}>
+                  {record ? (
+                    <button
+                      type="button"
+                      onClick={() => handleReturn(record.recordId)}
+                      className="mt-2 bg-primary text-white px-3 py-1 rounded flex items-center gap-1"
+                    >
+                      <ReturnIcon className="w-4 h-4" /> Return
+                    </button>
+                  ) : (
+                    <>
+                      {book.status === 'AVAILABLE' && (
+                        <button
+                          type="button"
+                          onClick={() => handleBorrow(book.bookId)}
+                          className="mt-2 bg-primary text-white px-3 py-1 rounded flex items-center gap-1"
+                        >
+                          <BorrowIcon className="w-4 h-4" /> Borrow
+                        </button>
+                      )}
+                      {book.status === 'BORROWED' && (
+                        <button
+                          type="button"
+                          onClick={() => handleReserve(book.bookId)}
+                          className="mt-2 bg-secondary text-white px-3 py-1 rounded flex items-center gap-1"
+                        >
+                          <ReturnIcon className="w-4 h-4" /> Reserve
+                        </button>
+                      )}
+                    </>
+                  )}
+                </BookCard>
+              )
+            })}
         </div>
       </section>
 
