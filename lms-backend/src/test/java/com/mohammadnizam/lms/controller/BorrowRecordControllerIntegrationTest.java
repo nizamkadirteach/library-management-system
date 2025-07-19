@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -169,5 +170,34 @@ class BorrowRecordControllerIntegrationTest {
         BorrowRecord updated = borrowRecordRepository.findById(record.getRecordId()).orElseThrow();
         assertThat(updated.getRenewalCount()).isEqualTo(1);
         assertThat(updated.getDueDate()).isEqualTo(record.getDueDate().plusDays(14));
+    }
+
+    @Test
+    void getOverdueRecords_returnsOverdueList() throws Exception {
+        Member member = createMemberWithUser();
+        String auth = authHeader(member);
+
+        Book book = new Book();
+        book.setIsbn("444");
+        book.setTitle("Overdue Book");
+        book.setAuthor("Author");
+        book.setCategory("Fiction");
+        book.setPublicationYear(2023);
+        book.setCopiesAvailable(1);
+        book.setStatus(BookStatus.AVAILABLE);
+        book = bookRepository.save(book);
+
+        BorrowRecord overdue = new BorrowRecord();
+        overdue.setMember(member);
+        overdue.setBook(book);
+        overdue.setBorrowDate(LocalDate.now().minusDays(20));
+        overdue.setDueDate(LocalDate.now().minusDays(5));
+        overdue.setFine(BigDecimal.ZERO);
+        overdue = borrowRecordRepository.save(overdue);
+
+        mockMvc.perform(get("/api/borrow-records/overdue")
+                        .header("Authorization", auth))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].recordId").value(overdue.getRecordId()));
     }
 }
