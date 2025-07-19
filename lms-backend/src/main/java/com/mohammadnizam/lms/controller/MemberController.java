@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class MemberController {
     private MemberRepository memberRepository;
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<MemberDto>> getAllMembers() {
         List<MemberDto> list = memberRepository.findAll()
                 .stream()
@@ -27,6 +29,7 @@ public class MemberController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<MemberDto> createMember(@RequestBody Member member) {
         Member saved = memberRepository.save(member);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -34,6 +37,7 @@ public class MemberController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<MemberDto> updateMember(@PathVariable Integer id,
                                                   @RequestBody Member member) {
         if (!memberRepository.existsById(id)) {
@@ -45,6 +49,7 @@ public class MemberController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteMember(@PathVariable Integer id) {
         if (!memberRepository.existsById(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

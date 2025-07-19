@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,6 +46,7 @@ public class BookController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<BookDto> createBook(@RequestBody Book book) {
         Book saved = bookRepository.save(book);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -52,6 +54,7 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<BookDto> updateBook(@PathVariable Integer id,
                                               @RequestBody Book book) {
         if (!bookRepository.existsById(id)) {
@@ -63,6 +66,7 @@ public class BookController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteBook(@PathVariable Integer id) {
         if (!bookRepository.existsById(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

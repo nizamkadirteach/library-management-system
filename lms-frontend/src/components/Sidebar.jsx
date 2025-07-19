@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+import { getUserRole } from '../utils/auth'
 
 export default function Sidebar() {
   const linkClass = ({ isActive }) =>
@@ -10,12 +11,16 @@ export default function Sidebar() {
         <NavLink to="/dashboard" className={linkClass}>
           Dashboard
         </NavLink>
-        <NavLink to="/books" className={linkClass}>
-          Books
-        </NavLink>
-        <NavLink to="/members" className={linkClass}>
-          Members
-        </NavLink>
+        {getUserRole() === 'ADMIN' && (
+          <>
+            <NavLink to="/books" className={linkClass}>
+              Books
+            </NavLink>
+            <NavLink to="/members" className={linkClass}>
+              Members
+            </NavLink>
+          </>
+        )}
         <NavLink to="/borrow-records" className={linkClass}>
           Borrow Records
         </NavLink>
