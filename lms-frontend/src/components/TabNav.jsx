@@ -17,14 +17,13 @@ export default function TabNav({ role }) {
     }`
 
   const adminTabs = [
-    { to: '/admin-dashboard', label: 'Dashboard Summary', icon: RecordIcon },
+    { to: '/admin-dashboard', label: 'Overdue Tracking', icon: CalendarIcon },
     { to: '/books', label: 'Manage Books', icon: BookIcon },
     {
       to: '/members',
       label: 'Manage Members',
       icon: UserIcon, // ✅ Only show Manage Members tab for Admin
     },
-    { to: '/admin-dashboard', label: 'Overdue Tracking', icon: CalendarIcon },
     { to: '/borrow-records', label: 'Borrow/Reserve Logs', icon: RecordIcon },
   ]
 
@@ -37,7 +36,6 @@ export default function TabNav({ role }) {
     },
     { to: '/reservations', label: 'My Reservations', icon: CalendarIcon },
     { to: '/my-fines', label: 'My Fines', icon: FineIcon },
-    { to: '/borrow-records', label: 'Borrowing History', icon: RecordIcon },
   ]
 
   const tabs = userRole === 'ADMIN' ? adminTabs : memberTabs
@@ -47,7 +45,7 @@ export default function TabNav({ role }) {
       {tabs.map(({ to, label, icon }) => {
         const Icon = icon
         return (
-          <NavLink key={to} to={to} className={linkClass} end>
+          <NavLink key={label} to={to} className={linkClass} end>
             <Icon className="w-5 h-5" />
             <span className="hidden sm:inline">{label}</span>
           </NavLink>
