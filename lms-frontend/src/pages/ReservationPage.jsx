@@ -7,7 +7,7 @@ import ReturnIcon from '../assets/icons/ReturnIcon'
 
 export default function ReservationPage() {
   const [reservations, setReservations] = useState([])
-  const [memberId, setMemberId] = useState('')
+  const [memberId, setMemberId] = useState(null)
   const [bookId, setBookId] = useState('')
 
   const fetchReservations = async () => {
@@ -21,13 +21,21 @@ export default function ReservationPage() {
 
   useEffect(() => {
     fetchReservations()
+    const fetchMember = async () => {
+      try {
+        const { data } = await api.get('/members/me')
+        setMemberId(data.memberId)
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    fetchMember()
   }, [])
 
   const handleReserve = async (e) => {
     e.preventDefault()
     try {
       await api.post('/reservations', null, { params: { memberId, bookId } })
-      setMemberId('')
       setBookId('')
       fetchReservations()
     } catch (err) {
@@ -50,13 +58,6 @@ export default function ReservationPage() {
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">Reservations</h1>
       <form onSubmit={handleReserve} className="flex gap-2 flex-wrap">
-        <input
-          type="number"
-          placeholder="Member ID"
-          value={memberId}
-          onChange={(e) => setMemberId(e.target.value)}
-          className="border p-2 rounded"
-        />
         <input
           type="number"
           placeholder="Book ID"
