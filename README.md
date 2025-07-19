@@ -45,6 +45,12 @@ Entities include `users`, `books`, `members`, `borrow_transactions` and `reserva
 ## Setup
 1. Create the database `lms_db` and run `sql/create_tables.sql`.
 2. Configure a JWT secret in `lms-backend/src/main/resources/application.properties`.
+   The repo includes a default example using a 256‑bit value encoded in Base64:
+   ```properties
+   jwt.secret=90kP5GCZOPt6+AlZn+xJSCrjXVoD6EwOKY7G0dI3WS0=
+   ```
+   Replace this with your own secret (generate with `openssl rand -base64 32`).
+   If a registration attempt uses an existing username, the API returns `409 Conflict`.
    The repo includes a default example using `secret-key` encoded in Base64:
    ```properties
    jwt.secret=c2VjcmV0LWtleQ==
