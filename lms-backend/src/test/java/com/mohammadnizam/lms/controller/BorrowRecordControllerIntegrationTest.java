@@ -289,4 +289,55 @@ class BorrowRecordControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].recordId").value(overdue.getRecordId()));
     }
+
+    @Test
+    void searchMyRecords_filtersResults() throws Exception {
+        Member member = createMemberWithUser();
+        String auth = authHeader(member);
+
+        Book bookA = new Book();
+        bookA.setIsbn("s1");
+        bookA.setTitle("Unique Alpha");
+        bookA.setAuthor("A");
+        bookA.setCategory("Cat");
+        bookA.setPublicationYear(2024);
+        bookA.setCopiesAvailable(1);
+        bookA.setStatus(BookStatus.AVAILABLE);
+        bookA = bookRepository.save(bookA);
+
+        Book bookB = new Book();
+        bookB.setIsbn("s2");
+        bookB.setTitle("Beta");
+        bookB.setAuthor("B");
+        bookB.setCategory("Cat");
+        bookB.setPublicationYear(2024);
+        bookB.setCopiesAvailable(1);
+        bookB.setStatus(BookStatus.AVAILABLE);
+        bookB = bookRepository.save(bookB);
+
+        BorrowRecord rec1 = new BorrowRecord();
+        rec1.setMember(member);
+        rec1.setBook(bookA);
+        rec1.setBorrowDate(LocalDate.of(2024, 1, 5));
+        rec1.setDueDate(LocalDate.of(2024, 1, 19));
+        rec1.setFine(BigDecimal.ZERO);
+        rec1 = borrowRecordRepository.save(rec1);
+
+        BorrowRecord rec2 = new BorrowRecord();
+        rec2.setMember(member);
+        rec2.setBook(bookB);
+        rec2.setBorrowDate(LocalDate.of(2024, 3, 5));
+        rec2.setDueDate(LocalDate.of(2024, 3, 19));
+        rec2.setFine(BigDecimal.ZERO);
+        borrowRecordRepository.save(rec2);
+
+        mockMvc.perform(get("/api/borrow-records/my/search")
+                        .param("title", "Alpha")
+                        .param("startDate", "2024-01-01")
+                        .param("endDate", "2024-01-31")
+                        .header("Authorization", auth))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].recordId").value(rec1.getRecordId()));
+    }
 }
