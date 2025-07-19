@@ -27,6 +27,12 @@ export default function Sidebar() {
         <NavLink to="/dashboard" className={linkClass}>
           Dashboard
         </NavLink>
+        <NavLink to="/search-books" className={linkClass}>
+          Search Books
+        </NavLink>
+        <NavLink to="/borrow" className={linkClass}>
+          Borrow
+        </NavLink>
         {role === 'ADMIN' && (
           <>
             <NavLink to="/books" className={linkClass}>
@@ -34,6 +40,9 @@ export default function Sidebar() {
             </NavLink>
             <NavLink to="/members" className={linkClass}>
               Members
+            </NavLink>
+            <NavLink to="/admin-dashboard" className={linkClass}>
+              Admin Dashboard
             </NavLink>
           </>
         )}
