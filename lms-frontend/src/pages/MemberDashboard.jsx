@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import api from '../api/axios'
 import FineNotice from '../components/FineNotice'
 import UserIcon from '../assets/icons/UserIcon'
+import BorrowPage from './BorrowPage'
 
 export default function MemberDashboard() {
   const [fine, setFine] = useState(null)
@@ -25,6 +26,8 @@ export default function MemberDashboard() {
         <UserIcon className="w-6 h-6" /> Member Dashboard
       </h1>
       {fine !== null && <FineNotice amount={fine} />}
+      {/* 🧠 Allow searching/borrowing books directly from dashboard */}
+      <BorrowPage />
     </div>
   )
 }
