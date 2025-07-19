@@ -45,6 +45,22 @@ public class BookController {
         return ResponseEntity.ok(list);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<BookDto>> searchBooks(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) String category) {
+        String t = title != null ? title : "";
+        String a = author != null ? author : "";
+        String c = category != null ? category : "";
+        List<BookDto> list = bookRepository
+                .findByTitleContainingIgnoreCaseAndAuthorContainingIgnoreCaseAndCategoryContainingIgnoreCase(t, a, c)
+                .stream()
+                .map(BookDto::fromEntity)
+                .toList();
+        return ResponseEntity.ok(list);
+    }
+
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<BookDto> createBook(@RequestBody Book book) {
