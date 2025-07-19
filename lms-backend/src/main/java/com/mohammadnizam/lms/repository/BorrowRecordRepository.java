@@ -2,6 +2,8 @@ package com.mohammadnizam.lms.repository;
 
 import com.mohammadnizam.lms.model.BorrowRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,4 +17,7 @@ public interface BorrowRecordRepository extends JpaRepository<BorrowRecord, Inte
     boolean existsByMember_MemberIdAndFineGreaterThan(Integer memberId, BigDecimal amount);
 
     boolean existsByMember_MemberIdAndDueDateBeforeAndReturnDateIsNull(Integer memberId, LocalDate date);
+
+    @Query("SELECT COALESCE(SUM(br.fine), 0) FROM BorrowRecord br WHERE br.member.memberId = :memberId AND br.fine > 0")
+    BigDecimal sumOutstandingFinesByMemberId(@Param("memberId") Integer memberId);
 }
