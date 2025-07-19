@@ -3,10 +3,10 @@ import { getUserRole } from '../utils/auth'
 
 export default function Sidebar() {
   const linkClass = ({ isActive }) =>
-    `block px-4 py-2 hover:bg-gray-200 ${isActive ? 'font-bold' : ''}`
+    `block px-4 py-2 rounded hover:bg-primary/10 ${isActive ? 'font-bold' : ''}`
 
   return (
-    <aside className="w-48 bg-gray-100 min-h-screen">
+    <aside className="w-48 bg-background border-r min-h-screen">
       <nav className="p-4 space-y-2">
         <NavLink to="/dashboard" className={linkClass}>
           Dashboard

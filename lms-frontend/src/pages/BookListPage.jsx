@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import api from '../api/axios'
 import BookForm from '../components/BookForm'
+import Button from '../components/ui/Button'
+import Card from '../components/ui/Card'
+import SearchIcon from '../assets/icons/SearchIcon'
+import BookIcon from '../assets/icons/BookIcon'
 
 export default function BookListPage() {
   const [books, setBooks] = useState([])
@@ -42,45 +46,43 @@ export default function BookListPage() {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Books</h1>
-      <div className="mb-4 flex gap-2 items-center">
-        <form onSubmit={handleSearch} className="flex gap-2 flex-1">
+    <div className="space-y-4">
+      <h1 className="text-2xl font-bold">Books</h1>
+      <div className="flex flex-col gap-3">
+        <form onSubmit={handleSearch} className="flex flex-wrap gap-2">
           <input
             type="text"
             placeholder="Search by title"
             value={search.title}
             onChange={(e) => setSearch({ ...search, title: e.target.value })}
-            className="border p-1 flex-1"
+            className="border p-2 rounded flex-1 min-w-[150px]"
           />
           <input
             type="text"
             placeholder="Author"
             value={search.author}
             onChange={(e) => setSearch({ ...search, author: e.target.value })}
-            className="border p-1 flex-1"
+            className="border p-2 rounded flex-1 min-w-[150px]"
           />
           <input
             type="text"
             placeholder="Category"
             value={search.category}
             onChange={(e) => setSearch({ ...search, category: e.target.value })}
-            className="border p-1 flex-1"
+            className="border p-2 rounded flex-1 min-w-[150px]"
           />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-1 rounded"
-          >
-            Search
-          </button>
+          <Button type="submit" className="bg-primary flex items-center gap-1">
+            <SearchIcon className="w-5 h-5" /> Search
+          </Button>
         </form>
-        <button
+        <Button
           type="button"
           onClick={() => setShowAdd((v) => !v)}
-          className="bg-green-500 text-white px-4 py-1 rounded"
+          className="bg-secondary w-fit"
         >
+          <BookIcon className="w-5 h-5 inline mr-1" />
           {showAdd ? 'Close' : 'Add Book'}
-        </button>
+        </Button>
       </div>
       {showAdd && (
         <div className="mb-4">
@@ -95,16 +97,17 @@ export default function BookListPage() {
       )}
       <ul className="space-y-2">
         {books.map((book) => (
-          <li key={book.bookId} className="border p-2 rounded">
-            <div className="flex justify-between items-center">
-              <span>{book.title}</span>
-              <button
-                className="text-blue-600 underline"
+          <li key={book.bookId}>
+            <Card className="flex justify-between items-start gap-2">
+              <span className="font-medium">{book.title}</span>
+              <Button
+                type="button"
                 onClick={() => setEditBook(book)}
+                className="bg-primary text-sm"
               >
                 Edit
-              </button>
-            </div>
+              </Button>
+            </Card>
             {editBook && editBook.bookId === book.bookId && (
               <div className="mt-2">
                 <BookForm

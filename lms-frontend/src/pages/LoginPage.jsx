@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import api from '../api/axios'
+import Button from '../components/ui/Button'
+import Card from '../components/ui/Card'
+import UserIcon from '../assets/icons/UserIcon'
 
 export default function LoginPage() {
   const [username, setUsername] = useState('')
@@ -20,43 +23,52 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-50">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow w-80"
-      >
-        <h2 className="text-xl mb-4 font-bold text-center">Login</h2>
-        <div className="mb-2">
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full border px-2 py-1"
-          />
-        </div>
-        <div className="mb-4">
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full border px-2 py-1"
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-1 rounded"
-        >
+    <div className="flex items-center justify-center min-h-screen bg-background p-4">
+      {/* ⬆️ Improved: card container with theming */}
+      <Card className="w-full max-w-sm space-y-4">
+        <h2 className="text-2xl font-bold text-center flex items-center justify-center gap-2">
+          {/* ⬆️ Improved: added user icon */}
+          <UserIcon className="w-8 h-8 text-primary" />
           Login
-        </button>
-        <div className="mt-2 text-center">
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div>
+            <label className="sr-only" htmlFor="username">
+              Username
+            </label>
+            <input
+              id="username"
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="border p-2 rounded w-full"
+            />
+          </div>
+          <div>
+            <label className="sr-only" htmlFor="password">
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="border p-2 rounded w-full"
+            />
+          </div>
+          <Button type="submit" className="bg-primary w-full">
+            Login
+          </Button>
+        </form>
+        <div className="text-center">
           <span className="text-sm">Don't have an account? </span>
-          <Link to="/register" className="text-blue-600 underline">
+          <Link to="/register" className="text-primary underline">
             Register
           </Link>
         </div>
-      </form>
+      </Card>
     </div>
   )
 }
