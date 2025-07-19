@@ -49,3 +49,14 @@ CREATE TABLE borrow_records (
     FOREIGN KEY (member_id) REFERENCES members(member_id),
     FOREIGN KEY (book_id) REFERENCES books(book_id)
 );
+
+-- Reservations table
+CREATE TABLE reservations (
+    reservation_id INT AUTO_INCREMENT PRIMARY KEY,
+    member_id INT,
+    book_id INT,
+    reservation_date DATE,
+    status ENUM('ACTIVE', 'CANCELLED', 'FULFILLED') DEFAULT 'ACTIVE',
+    FOREIGN KEY (member_id) REFERENCES members(member_id),
+    FOREIGN KEY (book_id) REFERENCES books(book_id)
+);
