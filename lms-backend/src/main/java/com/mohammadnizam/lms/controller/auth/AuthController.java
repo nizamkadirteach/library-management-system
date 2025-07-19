@@ -43,7 +43,8 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
         authenticationManager.authenticate(authToken);
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
-        String token = jwtUtil.generateToken(userDetails.getUsername());
+        User user = userRepository.findByUsername(userDetails.getUsername());
+        String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
         return new AuthResponse(token);
     }
 
@@ -64,7 +65,7 @@ public class AuthController {
         member.setUser(user);
         memberRepository.save(member);
 
-        String token = jwtUtil.generateToken(user.getUsername());
+        String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
         return new AuthResponse(token);
     }
 }

@@ -7,6 +7,7 @@ import BorrowRecordPage from './pages/BorrowRecordPage'
 import Dashboard from './pages/Dashboard'
 import SidebarLayout from './layouts/SidebarLayout'
 import ProtectedRoute from './routes/ProtectedRoute'
+import AdminRoute from './routes/AdminRoute'
 
 export default function App() {
   return (
@@ -22,8 +23,22 @@ export default function App() {
           }
         >
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/books" element={<BookListPage />} />
-          <Route path="/members" element={<MemberListPage />} />
+          <Route
+            path="/books"
+            element={
+              <AdminRoute>
+                <BookListPage />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/members"
+            element={
+              <AdminRoute>
+                <MemberListPage />
+              </AdminRoute>
+            }
+          />
           <Route path="/borrow-records" element={<BorrowRecordPage />} />
         </Route>
       </Routes>
