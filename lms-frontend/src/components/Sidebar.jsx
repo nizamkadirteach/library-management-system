@@ -24,6 +24,9 @@ export default function Sidebar() {
         <NavLink to="/borrow-records" className={linkClass}>
           Borrow Records
         </NavLink>
+        <NavLink to="/reservations" className={linkClass}>
+          Reservations
+        </NavLink>
       </nav>
     </aside>
   )

@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage'
 import BookListPage from './pages/BookListPage'
 import MemberListPage from './pages/MemberListPage'
 import BorrowRecordPage from './pages/BorrowRecordPage'
+import ReservationPage from './pages/ReservationPage'
 import Dashboard from './pages/Dashboard'
 import SidebarLayout from './layouts/SidebarLayout'
 import ProtectedRoute from './routes/ProtectedRoute'
@@ -40,6 +41,7 @@ export default function App() {
             }
           />
           <Route path="/borrow-records" element={<BorrowRecordPage />} />
+          <Route path="/reservations" element={<ReservationPage />} />
         </Route>
       </Routes>
     </Router>

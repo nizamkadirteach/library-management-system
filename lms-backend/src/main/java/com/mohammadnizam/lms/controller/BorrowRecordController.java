@@ -5,9 +5,12 @@ import com.mohammadnizam.lms.model.Book;
 import com.mohammadnizam.lms.model.BookStatus;
 import com.mohammadnizam.lms.model.BorrowRecord;
 import com.mohammadnizam.lms.model.Member;
+import com.mohammadnizam.lms.model.Reservation;
+import com.mohammadnizam.lms.model.ReservationStatus;
 import com.mohammadnizam.lms.repository.BookRepository;
 import com.mohammadnizam.lms.repository.BorrowRecordRepository;
 import com.mohammadnizam.lms.repository.MemberRepository;
+import com.mohammadnizam.lms.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +35,9 @@ public class BorrowRecordController {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @GetMapping
     public ResponseEntity<List<BorrowRecordDto>> getAllRecords() {
@@ -64,6 +70,19 @@ public class BorrowRecordController {
         boolean hasOverdue = borrowRecordRepository.existsByMember_MemberIdAndDueDateBeforeAndReturnDateIsNull(memberId, LocalDate.now());
         if (active >= 5 || hasFine || hasOverdue) {
             return ResponseEntity.badRequest().build();
+        }
+
+        boolean hasReservation = reservationRepository.existsByBook_BookIdAndStatus(bookId, ReservationStatus.ACTIVE);
+        if (hasReservation) {
+            Optional<Reservation> ownReservation = reservationRepository
+                    .findByBook_BookIdAndMember_MemberIdAndStatus(bookId, memberId, ReservationStatus.ACTIVE);
+            if (ownReservation.isPresent()) {
+                Reservation r = ownReservation.get();
+                r.setStatus(ReservationStatus.FULFILLED);
+                reservationRepository.save(r);
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
         }
 
         Book book = bookOpt.get();
