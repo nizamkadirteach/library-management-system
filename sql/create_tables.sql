@@ -44,6 +44,7 @@ CREATE TABLE borrow_records (
     borrow_date DATE,
     due_date DATE,
     return_date DATE,
+    renewal_count INT DEFAULT 0,
     fine DECIMAL(5,2) DEFAULT 0.00,
     FOREIGN KEY (member_id) REFERENCES members(member_id),
     FOREIGN KEY (book_id) REFERENCES books(book_id)

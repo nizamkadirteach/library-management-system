@@ -127,13 +127,47 @@ class BorrowRecordControllerIntegrationTest {
         mockMvc.perform(put("/api/borrow-records/return/" + record.getRecordId())
                 .header("Authorization", auth))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.fine").value(5));
+                .andExpect(jsonPath("$.fine").value(2.5));
 
         BorrowRecord updatedRecord = borrowRecordRepository.findById(record.getRecordId()).orElseThrow();
-        assertThat(updatedRecord.getFine().intValue()).isEqualTo(5);
+        assertThat(updatedRecord.getFine()).isEqualByComparingTo(BigDecimal.valueOf(2.5));
 
         Book returnedBook = bookRepository.findById(book.getBookId()).orElseThrow();
         assertThat(returnedBook.getCopiesAvailable()).isEqualTo(1);
         assertThat(returnedBook.getStatus()).isEqualTo(BookStatus.AVAILABLE);
+    }
+
+    @Test
+    void renewBook_incrementsCountAndExtendsDueDate() throws Exception {
+        Member member = createMemberWithUser();
+        String auth = authHeader(member);
+
+        Book book = new Book();
+        book.setIsbn("333");
+        book.setTitle("Renewable Book");
+        book.setAuthor("Author");
+        book.setCategory("Fiction");
+        book.setPublicationYear(2023);
+        book.setCopiesAvailable(1);
+        book.setStatus(BookStatus.AVAILABLE);
+        book = bookRepository.save(book);
+
+        BorrowRecord record = new BorrowRecord();
+        record.setMember(member);
+        record.setBook(book);
+        record.setBorrowDate(LocalDate.now());
+        record.setDueDate(LocalDate.now().plusDays(14));
+        record.setRenewalCount(0);
+        record.setFine(BigDecimal.ZERO);
+        record = borrowRecordRepository.save(record);
+
+        mockMvc.perform(put("/api/borrow-records/renew/" + record.getRecordId())
+                .header("Authorization", auth))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.renewalCount").value(1));
+
+        BorrowRecord updated = borrowRecordRepository.findById(record.getRecordId()).orElseThrow();
+        assertThat(updated.getRenewalCount()).isEqualTo(1);
+        assertThat(updated.getDueDate()).isEqualTo(record.getDueDate().plusDays(14));
     }
 }
