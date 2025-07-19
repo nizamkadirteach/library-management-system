@@ -19,12 +19,20 @@ export default function HomePage() {
             Explore, manage and borrow books with ease through our Library
             Management System.
           </p>
-          <Link
-            to="/login"
-            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded"
-          >
-            Login
-          </Link>
+          <div className="flex gap-4">
+            <Link
+              to="/login"
+              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded"
+            >
+              Login
+            </Link>
+            <Link
+              to="/register"
+              className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded"
+            >
+              Register
+            </Link>
+          </div>
         </div>
       </header>
 
