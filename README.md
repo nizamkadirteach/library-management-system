@@ -67,6 +67,11 @@ Entities include `users`, `books`, `members`, `borrow_transactions` and `reserva
    ```
 6. Open `http://localhost:5173` in a browser.
 
+## API Documentation
+
+A Postman collection covering all API endpoints can be found at
+[docs/LMS.postman_collection.json](docs/LMS.postman_collection.json).
+
 ## Tests
 Backend unit tests can be executed with:
 ```bash

@@ -1,0 +1,434 @@
+{
+  "info": {
+    "name": "Library Management System API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "http://localhost:8081/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "auth", "login"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"user\",\n  \"password\": \"pass\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "http://localhost:8081/api/auth/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "auth", "register"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"newuser\",\n  \"password\": \"pass\",\n  \"fullName\": \"Name\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Books",
+      "item": [
+        {
+          "name": "List Books",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/books",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "books"]
+            }
+          }
+        },
+        {
+          "name": "Get Book",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/books/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "books", ":id"]
+            }
+          }
+        },
+        {
+          "name": "Available Books",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/books/available",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "books", "available"]
+            }
+          }
+        },
+        {
+          "name": "Search Books",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/books/search?title=&author=&category=",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "books", "search"],
+              "query": [
+                {"key": "title", "value": ""},
+                {"key": "author", "value": ""},
+                {"key": "category", "value": ""}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Book",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "http://localhost:8081/api/books",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "books"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Book\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Book",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "http://localhost:8081/api/books/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "books", ":id"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        },
+        {
+          "name": "Delete Book",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "http://localhost:8081/api/books/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "books", ":id"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Borrow Records",
+      "item": [
+        {
+          "name": "All Records",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/borrow-records",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "borrow-records"]
+            }
+          }
+        },
+        {
+          "name": "Overdue Records",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/borrow-records/overdue",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "borrow-records", "overdue"]
+            }
+          }
+        },
+        {
+          "name": "Records By Member",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/borrow-records/member/:memberId",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "borrow-records", "member", ":memberId"]
+            }
+          }
+        },
+        {
+          "name": "My Records",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/borrow-records/my",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "borrow-records", "my"]
+            }
+          }
+        },
+        {
+          "name": "Borrow Book",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "http://localhost:8081/api/borrow-records/borrow?memberId=&bookId=",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "borrow-records", "borrow"],
+              "query": [
+                {"key": "memberId", "value": ""},
+                {"key": "bookId", "value": ""}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Return Book",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "http://localhost:8081/api/borrow-records/return/:recordId",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "borrow-records", "return", ":recordId"]
+            }
+          }
+        },
+        {
+          "name": "Renew Book",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "http://localhost:8081/api/borrow-records/renew/:recordId",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "borrow-records", "renew", ":recordId"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Members",
+      "item": [
+        {
+          "name": "List Members",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/members",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "members"]
+            }
+          }
+        },
+        {
+          "name": "Search Members",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/members/search?name=",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "members", "search"],
+              "query": [
+                {"key": "name", "value": ""}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Member",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "http://localhost:8081/api/members",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "members"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        },
+        {
+          "name": "Update Member",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "http://localhost:8081/api/members/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "members", ":id"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          }
+        },
+        {
+          "name": "Delete Member",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "http://localhost:8081/api/members/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "members", ":id"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reservations",
+      "item": [
+        {
+          "name": "List Reservations",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/reservations",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "reservations"]
+            }
+          }
+        },
+        {
+          "name": "My Reservations",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/reservations/my",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "reservations", "my"]
+            }
+          }
+        },
+        {
+          "name": "Create Reservation",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "http://localhost:8081/api/reservations?memberId=&bookId=",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "reservations"],
+              "query": [
+                {"key": "memberId", "value": ""},
+                {"key": "bookId", "value": ""}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cancel Reservation",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "http://localhost:8081/api/reservations/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "reservations", ":id"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Fines",
+      "item": [
+        {
+          "name": "Outstanding Fines",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/fines/:memberId",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "fines", ":memberId"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/users",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8081",
+              "path": ["api", "users"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
