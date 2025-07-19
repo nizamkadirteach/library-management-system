@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -16,12 +17,12 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    // Simple static secret for demo purposes
-    private static final String SECRET = "746869732d69732d612d766572792d7365637265742d6b65792d313233";
+    @Value("${jwt.secret}")
+    private String secret;
     private static final long EXPIRATION_MS = 1000 * 60 * 60; // 1 hour
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
+        byte[] keyBytes = Decoders.BASE64.decode(secret);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

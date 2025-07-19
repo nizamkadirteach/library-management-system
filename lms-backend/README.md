@@ -9,11 +9,16 @@ This module contains the Spring Boot application for the **Library Management Sy
 
 ## Setup
 1. Ensure MySQL is running and execute `../sql/create_tables.sql` to create tables.
-2. Run the application:
+2. Set a JWT signing secret in `src/main/resources/application.properties`:
+   ```properties
+   jwt.secret=BASE64_ENCODED_SECRET
+   ```
+   You can generate one with `openssl rand -base64 32`.
+3. Run the application:
    ```bash
    ./mvnw spring-boot:run
    ```
-3. The API will be available at `http://localhost:8081/api/`.
+4. The API will be available at `http://localhost:8081/api/`.
 
 ## Common Endpoints
 - `POST /api/auth/register` – user registration
