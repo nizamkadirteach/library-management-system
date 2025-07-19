@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import api from '../api/axios'
 import MemberForm from '../components/MemberForm'
+import Button from '../components/ui/Button'
+import Card from '../components/ui/Card'
+import SearchIcon from '../assets/icons/SearchIcon'
+import UserIcon from '../assets/icons/UserIcon'
 
 export default function MemberListPage() {
   const [members, setMembers] = useState([])
@@ -34,51 +38,62 @@ export default function MemberListPage() {
   }, [])
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Members</h1>
-      <div className="mb-4 flex gap-2 items-center">
-        <form onSubmit={handleSearch} className="flex gap-2 flex-1">
+    <div className="space-y-4">
+      <h1 className="text-2xl font-bold">Members</h1>
+      <div className="flex flex-col gap-3">
+        <form onSubmit={handleSearch} className="flex gap-2 flex-wrap">
           <input
             type="text"
             placeholder="Search by name"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="border p-1 flex-1"
+            className="border p-2 rounded flex-1 min-w-[150px]"
           />
-          <button type="submit" className="bg-blue-500 text-white px-4 py-1 rounded">
-            Search
-          </button>
+          <Button type="submit" className="bg-primary flex items-center gap-1">
+            <SearchIcon className="w-5 h-5" /> Search
+          </Button>
         </form>
-        <button
+        <Button
           type="button"
           onClick={() => setShowAdd((v) => !v)}
-          className="bg-green-500 text-white px-4 py-1 rounded"
+          className="bg-secondary w-fit"
         >
+          <UserIcon className="w-5 h-5 inline mr-1" />
           {showAdd ? 'Close' : 'Add Member'}
-        </button>
+        </Button>
       </div>
       {showAdd && (
         <div className="mb-4">
-          <MemberForm onSuccess={() => { setShowAdd(false); fetchMembers(); }} onCancel={() => setShowAdd(false)} />
+          <MemberForm
+            onSuccess={() => {
+              setShowAdd(false)
+              fetchMembers()
+            }}
+            onCancel={() => setShowAdd(false)}
+          />
         </div>
       )}
       <ul className="space-y-2">
         {members.map((m) => (
-          <li key={m.memberId} className="border p-2 rounded">
-            <div className="flex justify-between items-center">
-              <span>{m.fullName}</span>
-              <button
-                className="text-blue-600 underline"
+          <li key={m.memberId}>
+            <Card className="flex justify-between items-start gap-2">
+              <span className="font-medium">{m.fullName}</span>
+              <Button
+                type="button"
                 onClick={() => setEditMember(m)}
+                className="bg-primary text-sm"
               >
                 Edit
-              </button>
-            </div>
+              </Button>
+            </Card>
             {editMember && editMember.memberId === m.memberId && (
               <div className="mt-2">
                 <MemberForm
                   member={editMember}
-                  onSuccess={() => { setEditMember(null); fetchMembers(); }}
+                  onSuccess={() => {
+                    setEditMember(null)
+                    fetchMembers()
+                  }}
                   onCancel={() => setEditMember(null)}
                 />
               </div>

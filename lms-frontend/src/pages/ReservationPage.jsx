@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react'
 import api from '../api/axios'
+import Button from '../components/ui/Button'
+import Card from '../components/ui/Card'
+import BorrowIcon from '../assets/icons/BorrowIcon'
+import ReturnIcon from '../assets/icons/ReturnIcon'
 
 export default function ReservationPage() {
   const [reservations, setReservations] = useState([])
@@ -43,41 +47,44 @@ export default function ReservationPage() {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Reservations</h1>
-      <form onSubmit={handleReserve} className="mb-4 flex gap-2">
+    <div className="space-y-4">
+      <h1 className="text-2xl font-bold">Reservations</h1>
+      <form onSubmit={handleReserve} className="flex gap-2 flex-wrap">
         <input
           type="number"
           placeholder="Member ID"
           value={memberId}
           onChange={(e) => setMemberId(e.target.value)}
-          className="border p-1"
+          className="border p-2 rounded"
         />
         <input
           type="number"
           placeholder="Book ID"
           value={bookId}
           onChange={(e) => setBookId(e.target.value)}
-          className="border p-1"
+          className="border p-2 rounded"
         />
-        <button type="submit" className="bg-blue-500 text-white px-4 rounded">
-          Reserve
-        </button>
+        <Button type="submit" className="bg-primary flex items-center gap-1">
+          <BorrowIcon className="w-5 h-5" /> Reserve
+        </Button>
       </form>
       <ul className="space-y-2">
         {reservations.map((r) => (
-          <li key={r.reservationId} className="border p-2 rounded flex justify-between items-center">
-            <span>
-              Member {r.memberId} reserved Book {r.bookId} ({r.status})
-            </span>
-            {r.status === 'ACTIVE' && (
-              <button
-                onClick={() => handleCancel(r.reservationId)}
-                className="text-red-500"
-              >
-                Cancel
-              </button>
-            )}
+          <li key={r.reservationId}>
+            <Card className="flex justify-between items-center gap-2">
+              <span>
+                Member {r.memberId} reserved Book {r.bookId} ({r.status})
+              </span>
+              {r.status === 'ACTIVE' && (
+                <Button
+                  type="button"
+                  onClick={() => handleCancel(r.reservationId)}
+                  className="bg-secondary text-xs"
+                >
+                  <ReturnIcon className="w-4 h-4 mr-1" /> Cancel
+                </Button>
+              )}
+            </Card>
           </li>
         ))}
       </ul>

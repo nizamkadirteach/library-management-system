@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import api from '../api/axios'
+import Button from './ui/Button'
 
 export default function MemberForm({ member, onSuccess, onCancel }) {
   const [form, setForm] = useState({
@@ -108,13 +109,13 @@ export default function MemberForm({ member, onSuccess, onCancel }) {
         />
       </div>
       <div className="flex gap-2">
-        <button type="submit" className="bg-blue-500 text-white px-4 py-1 rounded">
+        <Button type="submit" className="bg-primary">
           Save
-        </button>
+        </Button>
         {onCancel && (
-          <button type="button" onClick={onCancel} className="border px-4 py-1 rounded">
+          <Button type="button" onClick={onCancel} className="border text-text">
             Cancel
-          </button>
+          </Button>
         )}
       </div>
     </form>

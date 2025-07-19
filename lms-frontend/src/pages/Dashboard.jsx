@@ -1,5 +1,8 @@
 import { useState } from 'react'
 import api from '../api/axios'
+import Button from '../components/ui/Button'
+import Card from '../components/ui/Card'
+import FineIcon from '../assets/icons/FineIcon'
 
 export default function Dashboard() {
   const [memberId, setMemberId] = useState('')
@@ -17,25 +20,24 @@ export default function Dashboard() {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-      <div className="mb-4 flex gap-2 items-center">
+    <div className="space-y-4">
+      <h1 className="text-2xl font-bold">Dashboard</h1>
+      <Card className="flex items-center gap-2 w-fit">
         <input
           type="number"
           placeholder="Member ID"
           value={memberId}
           onChange={(e) => setMemberId(e.target.value)}
-          className="border p-1"
+          className="border p-2 rounded"
         />
-        <button
-          onClick={fetchFine}
-          className="bg-blue-500 text-white px-4 py-1 rounded"
-        >
-          Check Fines
-        </button>
-      </div>
+        <Button onClick={fetchFine} className="bg-primary">
+          <FineIcon className="w-5 h-5 inline mr-1" /> Check Fines
+        </Button>
+      </Card>
       {fine !== null && (
-        <div className="text-lg">Outstanding Fines: ${fine.toFixed(2)}</div>
+        <div className="text-lg font-medium">
+          Outstanding Fines: ${fine.toFixed(2)}
+        </div>
       )}
     </div>
   )

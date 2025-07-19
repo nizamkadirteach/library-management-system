@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../api/axios'
+import Button from '../components/ui/Button'
+import Card from '../components/ui/Card'
+import UserIcon from '../assets/icons/UserIcon'
 
 export default function RegisterPage() {
   const [form, setForm] = useState({
@@ -40,77 +43,76 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow w-80 space-y-2"
-      >
-        <h2 className="text-xl mb-2 font-bold text-center">Register</h2>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={form.username}
-          onChange={handleChange}
-          className="border p-1 w-full"
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={form.password}
-          onChange={handleChange}
-          className="border p-1 w-full"
-          required
-        />
-        <input
-          type="text"
-          name="fullName"
-          placeholder="Full Name"
-          value={form.fullName}
-          onChange={handleChange}
-          className="border p-1 w-full"
-        />
-        <input
-          type="text"
-          name="contactInfo"
-          placeholder="Contact Info"
-          value={form.contactInfo}
-          onChange={handleChange}
-          className="border p-1 w-full"
-        />
-        <input
-          type="text"
-          name="address"
-          placeholder="Address"
-          value={form.address}
-          onChange={handleChange}
-          className="border p-1 w-full"
-        />
-        <input
-          type="date"
-          name="membershipStart"
-          placeholder="Start"
-          value={form.membershipStart}
-          onChange={handleChange}
-          className="border p-1 w-full"
-        />
-        <input
-          type="date"
-          name="membershipEnd"
-          placeholder="End"
-          value={form.membershipEnd}
-          onChange={handleChange}
-          className="border p-1 w-full"
-        />
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-1 rounded"
-        >
-          Register
-        </button>
-      </form>
+    <div className="flex items-center justify-center min-h-screen bg-background p-4">
+      {/* ⬆️ Improved: theme card layout */}
+      <Card className="w-full max-w-sm space-y-4">
+        <h2 className="text-2xl font-bold text-center flex items-center justify-center gap-2">
+          <UserIcon className="w-8 h-8 text-primary" /> Register
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={form.username}
+            onChange={handleChange}
+            className="border p-2 rounded w-full"
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+            className="border p-2 rounded w-full"
+            required
+          />
+          <input
+            type="text"
+            name="fullName"
+            placeholder="Full Name"
+            value={form.fullName}
+            onChange={handleChange}
+            className="border p-2 rounded w-full"
+          />
+          <input
+            type="text"
+            name="contactInfo"
+            placeholder="Contact Info"
+            value={form.contactInfo}
+            onChange={handleChange}
+            className="border p-2 rounded w-full"
+          />
+          <input
+            type="text"
+            name="address"
+            placeholder="Address"
+            value={form.address}
+            onChange={handleChange}
+            className="border p-2 rounded w-full"
+          />
+          <input
+            type="date"
+            name="membershipStart"
+            placeholder="Start"
+            value={form.membershipStart}
+            onChange={handleChange}
+            className="border p-2 rounded w-full"
+          />
+          <input
+            type="date"
+            name="membershipEnd"
+            placeholder="End"
+            value={form.membershipEnd}
+            onChange={handleChange}
+            className="border p-2 rounded w-full"
+          />
+          <Button type="submit" className="bg-secondary w-full">
+            Register
+          </Button>
+        </form>
+      </Card>
     </div>
   )
 }
