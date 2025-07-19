@@ -10,7 +10,11 @@ export default function BorrowRecordPage() {
   const [records, setRecords] = useState([])
   const [memberId, setMemberId] = useState(null)
   const [bookId, setBookId] = useState('')
-  const [search, setSearch] = useState({ title: '', startDate: '', endDate: '' })
+  const [search, setSearch] = useState({
+    title: '',
+    startDate: '',
+    endDate: '',
+  })
 
   const fetchRecords = async () => {
     try {
@@ -125,14 +129,19 @@ export default function BorrowRecordPage() {
       </form>
       <ul className="space-y-2">
         {records.map((r) => {
-          const overdue = r.returnDate == null && new Date(r.dueDate) < new Date()
+          const overdue =
+            r.returnDate == null && new Date(r.dueDate) < new Date()
           return (
             <li key={r.recordId}>
               <Card className="flex justify-between items-center gap-2">
+                {/* 🧠 Reused BookCard component under My Borrowed Books */}
                 <span className="flex-1">
-                  Record {r.recordId} &ndash; Book {r.bookId} &ndash; Member {r.memberId}
+                  Record {r.recordId} &ndash; Book {r.bookId} &ndash; Member{' '}
+                  {r.memberId}
                   <span className="ml-2">Due: {r.dueDate}</span>
-                  {overdue && <span className="text-red-600 ml-2">Overdue!</span>}
+                  {overdue && (
+                    <span className="text-red-600 ml-2">Overdue!</span>
+                  )}
                 </span>
                 {r.returnDate == null && (
                   <div className="flex gap-2">
