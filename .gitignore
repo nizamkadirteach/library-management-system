@@ -4,3 +4,5 @@ lms-frontend/node_modules/
 
 lms-frontend/dist/
 lms-frontend/.env
+
+lms-backend/target/
