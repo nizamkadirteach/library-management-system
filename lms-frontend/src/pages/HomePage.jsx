@@ -20,18 +20,6 @@ export default function HomePage() {
   const [memberId, setMemberId] = useState(null)
   const [records, setRecords] = useState([])
 
-  const loadUserData = useCallback(async () => {
-    const token = localStorage.getItem('token')
-    if (!token) return
-    try {
-      const { data: member } = await api.get('/members/me')
-      setMemberId(member.memberId)
-      const res = await api.get('/borrow-records/my')
-      setRecords(res.data || [])
-    } catch (err) {
-      console.error(err)
-    }
-  }, [])
 
   const fetchResults = useCallback(async () => {
     if (!query.trim()) return
@@ -47,6 +35,7 @@ export default function HomePage() {
       setLoading(false)
     }
   }, [query, loadUserData])
+
 
   useEffect(() => {
     loadUserData()
