@@ -5,6 +5,9 @@ import HomePage from './pages/HomePage'
 import BookDetailPage from './pages/BookDetailPage'
 import BookListPage from './pages/BookListPage'
 import MemberListPage from './pages/MemberListPage'
+import SearchBooks from './pages/SearchBooks'
+import BorrowPage from './pages/BorrowPage'
+import AdminDashboard from './pages/AdminDashboard'
 import BorrowRecordPage from './pages/BorrowRecordPage'
 import ReservationPage from './pages/ReservationPage'
 import Dashboard from './pages/Dashboard'
@@ -28,6 +31,8 @@ export default function App() {
           }
         >
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/search-books" element={<SearchBooks />} />
+          <Route path="/borrow" element={<BorrowPage />} />
           <Route
             path="/books"
             element={
@@ -41,6 +46,14 @@ export default function App() {
             element={
               <AdminRoute>
                 <MemberListPage />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin-dashboard"
+            element={
+              <AdminRoute>
+                <AdminDashboard />
               </AdminRoute>
             }
           />
