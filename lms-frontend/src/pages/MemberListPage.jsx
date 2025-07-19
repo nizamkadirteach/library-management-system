@@ -4,12 +4,25 @@ import MemberForm from '../components/MemberForm'
 
 export default function MemberListPage() {
   const [members, setMembers] = useState([])
+  const [query, setQuery] = useState('')
   const [showAdd, setShowAdd] = useState(false)
   const [editMember, setEditMember] = useState(null)
 
   const fetchMembers = async () => {
     try {
       const { data } = await api.get('/members')
+      setMembers(data)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const handleSearch = async (e) => {
+    e.preventDefault()
+    try {
+      const { data } = await api.get('/members/search', {
+        params: { name: query },
+      })
       setMembers(data)
     } catch (err) {
       console.error(err)
@@ -23,7 +36,19 @@ export default function MemberListPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Members</h1>
-      <div className="mb-4 flex justify-end">
+      <div className="mb-4 flex gap-2 items-center">
+        <form onSubmit={handleSearch} className="flex gap-2 flex-1">
+          <input
+            type="text"
+            placeholder="Search by name"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="border p-1 flex-1"
+          />
+          <button type="submit" className="bg-blue-500 text-white px-4 py-1 rounded">
+            Search
+          </button>
+        </form>
         <button
           type="button"
           onClick={() => setShowAdd((v) => !v)}
