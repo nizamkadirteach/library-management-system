@@ -43,10 +43,14 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest request) throws AuthenticationException {
+    public AuthResponse login(@RequestBody AuthRequest request) {
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
-        authenticationManager.authenticate(authToken);
+        try {
+            authenticationManager.authenticate(authToken);
+        } catch (AuthenticationException ex) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password");
+        }
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
         User user = userRepository.findByUsername(userDetails.getUsername());
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole().name());
