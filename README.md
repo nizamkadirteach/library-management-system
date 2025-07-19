@@ -44,11 +44,12 @@ Entities include `users`, `books`, `members`, `borrow_transactions` and `reserva
 
 ## Setup
 1. Create the database `lms_db` and run `sql/create_tables.sql`.
-2. Configure a JWT secret in `lms-backend/src/main/resources/application.properties`:
+2. Configure a JWT secret in `lms-backend/src/main/resources/application.properties`.
+   The repo includes a default example using `secret-key` encoded in Base64:
    ```properties
-   jwt.secret=BASE64_ENCODED_SECRET
+   jwt.secret=c2VjcmV0LWtleQ==
    ```
-   You can generate one with `openssl rand -base64 32`.
+   Replace this with your own secret (generate with `openssl rand -base64 32`).
 3. (Optional) Seed sample data with hashed passwords:
    ```bash
    mysql -u root -p lms_db < sql/insert_sample_data.sql
