@@ -18,6 +18,8 @@ public interface BorrowRecordRepository extends JpaRepository<BorrowRecord, Inte
 
     boolean existsByMember_MemberIdAndDueDateBeforeAndReturnDateIsNull(Integer memberId, LocalDate date);
 
+    List<BorrowRecord> findByDueDateBeforeAndReturnDateIsNull(LocalDate date);
+
     @Query("SELECT COALESCE(SUM(br.fine), 0) FROM BorrowRecord br WHERE br.member.memberId = :memberId AND br.fine > 0")
     BigDecimal sumOutstandingFinesByMemberId(@Param("memberId") Integer memberId);
 }

@@ -48,6 +48,16 @@ public class BorrowRecordController {
         return ResponseEntity.ok(list);
     }
 
+    @GetMapping("/overdue")
+    public ResponseEntity<List<BorrowRecordDto>> getOverdueRecords() {
+        List<BorrowRecordDto> list = borrowRecordRepository
+                .findByDueDateBeforeAndReturnDateIsNull(LocalDate.now())
+                .stream()
+                .map(BorrowRecordDto::fromEntity)
+                .toList();
+        return ResponseEntity.ok(list);
+    }
+
     @GetMapping("/member/{memberId}")
     public ResponseEntity<List<BorrowRecordDto>> getRecordsByMember(@PathVariable Integer memberId) {
         List<BorrowRecordDto> list = borrowRecordRepository.findByMember_MemberId(memberId)
