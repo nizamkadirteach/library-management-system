@@ -1,28 +1,63 @@
 import { useEffect, useState } from 'react'
 import api from '../api/axios'
+import MemberForm from '../components/MemberForm'
 
 export default function MemberListPage() {
   const [members, setMembers] = useState([])
+  const [showAdd, setShowAdd] = useState(false)
+  const [editMember, setEditMember] = useState(null)
+
+  const fetchMembers = async () => {
+    try {
+      const { data } = await api.get('/members')
+      setMembers(data)
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   useEffect(() => {
-    const fetchMembers = async () => {
-      try {
-        const { data } = await api.get('/members')
-        setMembers(data)
-      } catch (err) {
-        console.error(err)
-      }
-    }
     fetchMembers()
   }, [])
 
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">Members</h1>
+      <div className="mb-4 flex justify-end">
+        <button
+          type="button"
+          onClick={() => setShowAdd((v) => !v)}
+          className="bg-green-500 text-white px-4 py-1 rounded"
+        >
+          {showAdd ? 'Close' : 'Add Member'}
+        </button>
+      </div>
+      {showAdd && (
+        <div className="mb-4">
+          <MemberForm onSuccess={() => { setShowAdd(false); fetchMembers(); }} onCancel={() => setShowAdd(false)} />
+        </div>
+      )}
       <ul className="space-y-2">
         {members.map((m) => (
-          <li key={m.id} className="border p-2 rounded">
-            {m.name}
+          <li key={m.memberId} className="border p-2 rounded">
+            <div className="flex justify-between items-center">
+              <span>{m.fullName}</span>
+              <button
+                className="text-blue-600 underline"
+                onClick={() => setEditMember(m)}
+              >
+                Edit
+              </button>
+            </div>
+            {editMember && editMember.memberId === m.memberId && (
+              <div className="mt-2">
+                <MemberForm
+                  member={editMember}
+                  onSuccess={() => { setEditMember(null); fetchMembers(); }}
+                  onCancel={() => setEditMember(null)}
+                />
+              </div>
+            )}
           </li>
         ))}
       </ul>
