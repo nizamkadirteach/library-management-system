@@ -51,6 +51,9 @@ Entities include `users`, `books`, `members`, `borrow_transactions` and `reserva
    ```
    Replace this with your own secret (generate with `openssl rand -base64 32`).
    If a registration attempt uses an existing username, the API returns `409 Conflict`.
+
+3. Seed sample data with hashed passwords (required for default logins):
+
    The repo includes a default example using `secret-key` encoded in Base64:
    ```properties
    jwt.secret=c2VjcmV0LWtleQ==
@@ -59,11 +62,13 @@ Entities include `users`, `books`, `members`, `borrow_transactions` and `reserva
    
    If a registration attempt uses an existing username, the API returns `409 Conflict`.
 
-3. (Optional) Seed sample data with hashed passwords:
+
    ```bash
    mysql -u root -p lms_db < sql/insert_sample_data.sql
    ```
-   Default logins include `admin/admin123` for an admin user.
+   This script inserts sample members and an admin account.
+   Default admin credentials are `admin/admin123`.
+   If you skip seeding, create an admin user manually before logging in.
 4. Start the backend:
    ```bash
    cd lms-backend
