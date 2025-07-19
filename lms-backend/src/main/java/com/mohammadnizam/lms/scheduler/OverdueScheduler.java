@@ -2,6 +2,7 @@ package com.mohammadnizam.lms.scheduler;
 
 import com.mohammadnizam.lms.model.BorrowRecord;
 import com.mohammadnizam.lms.repository.BorrowRecordRepository;
+import com.mohammadnizam.lms.service.NotificationService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,6 +20,9 @@ public class OverdueScheduler {
     @Autowired
     private BorrowRecordRepository borrowRecordRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @Scheduled(cron = "0 0 0 * * *")
     @Transactional
     public void updateOverdueFines() {
@@ -35,5 +39,7 @@ public class OverdueScheduler {
                 borrowRecordRepository.save(record);
             }
         }
+
+        notificationService.sendOverdueNotifications();
     }
 }
