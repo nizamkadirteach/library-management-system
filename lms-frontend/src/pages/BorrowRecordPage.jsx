@@ -8,7 +8,7 @@ export default function BorrowRecordPage() {
 
   const fetchRecords = async () => {
     try {
-      const { data } = await api.get('/borrow-records')
+      const { data } = await api.get('/borrow-records/my')
       setRecords(data)
     } catch (err) {
       console.error(err)
