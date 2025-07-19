@@ -31,6 +31,7 @@ export default function SearchBooks() {
       <div className="grid gap-2 sm:grid-cols-3">
         <input
           type="text"
+          aria-label="Filter by title"
           placeholder="Title"
           value={query.title}
           onChange={(e) => setQuery({ ...query, title: e.target.value })}
@@ -38,6 +39,7 @@ export default function SearchBooks() {
         />
         <input
           type="text"
+          aria-label="Filter by author"
           placeholder="Author"
           value={query.author}
           onChange={(e) => setQuery({ ...query, author: e.target.value })}
@@ -45,6 +47,7 @@ export default function SearchBooks() {
         />
         <input
           type="text"
+          aria-label="Filter by category"
           placeholder="Category"
           value={query.category}
           onChange={(e) => setQuery({ ...query, category: e.target.value })}
@@ -53,6 +56,10 @@ export default function SearchBooks() {
       </div>
       {loading && <div>Loading...</div>}
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+        {/* ✅ Show message when no books match search */}
+        {!loading && books.length === 0 && (
+          <div className="text-gray-500 col-span-full">No books found</div>
+        )}
         {books.map((book) => (
           <BookCard key={book.bookId} book={book} />
         ))}
