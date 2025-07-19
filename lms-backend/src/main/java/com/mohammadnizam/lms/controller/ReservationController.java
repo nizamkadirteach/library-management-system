@@ -9,6 +9,7 @@ import com.mohammadnizam.lms.repository.BookRepository;
 import com.mohammadnizam.lms.repository.MemberRepository;
 import com.mohammadnizam.lms.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,19 @@ public class ReservationController {
     @GetMapping
     public ResponseEntity<List<ReservationDto>> getAll() {
         List<ReservationDto> list = reservationRepository.findAll()
+                .stream()
+                .map(ReservationDto::fromEntity)
+                .toList();
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<List<ReservationDto>> getMyReservations(@AuthenticationPrincipal(expression = "username") String username) {
+        Optional<Member> memberOpt = memberRepository.findByUser_Username(username);
+        if (memberOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        List<ReservationDto> list = reservationRepository.findByMember_MemberId(memberOpt.get().getMemberId())
                 .stream()
                 .map(ReservationDto::fromEntity)
                 .toList();

@@ -8,7 +8,7 @@ export default function ReservationPage() {
 
   const fetchReservations = async () => {
     try {
-      const { data } = await api.get('/reservations')
+      const { data } = await api.get('/reservations/my')
       setReservations(data)
     } catch (err) {
       console.error(err)

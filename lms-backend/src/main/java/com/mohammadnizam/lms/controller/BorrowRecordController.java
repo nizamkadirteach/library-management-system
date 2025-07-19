@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -61,6 +62,19 @@ public class BorrowRecordController {
     @GetMapping("/member/{memberId}")
     public ResponseEntity<List<BorrowRecordDto>> getRecordsByMember(@PathVariable Integer memberId) {
         List<BorrowRecordDto> list = borrowRecordRepository.findByMember_MemberId(memberId)
+                .stream()
+                .map(BorrowRecordDto::fromEntity)
+                .toList();
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<List<BorrowRecordDto>> getMyRecords(@AuthenticationPrincipal(expression = "username") String username) {
+        Optional<Member> memberOpt = memberRepository.findByUser_Username(username);
+        if (memberOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        List<BorrowRecordDto> list = borrowRecordRepository.findByMember_MemberId(memberOpt.get().getMemberId())
                 .stream()
                 .map(BorrowRecordDto::fromEntity)
                 .toList();
