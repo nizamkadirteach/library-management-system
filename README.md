@@ -44,7 +44,11 @@ Entities include `users`, `books`, `members`, `borrow_transactions` and `reserva
 
 ## Setup
 1. Create the database `lms_db` and run `sql/create_tables.sql`.
-2. (Optional) Seed sample data with hashed passwords by executing `sql/insert_sample_data.sql`. Default logins include `admin/admin123` for an admin user.
+2. (Optional) Seed sample data with hashed passwords:
+   ```bash
+   mysql -u root -p lms_db < sql/insert_sample_data.sql
+   ```
+   Default logins include `admin/admin123` for an admin user.
 3. Start the backend:
    ```bash
    cd lms-backend
