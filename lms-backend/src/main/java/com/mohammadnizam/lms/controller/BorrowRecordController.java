@@ -76,9 +76,12 @@ public class BorrowRecordController {
         }
 
         long active = borrowRecordRepository.countByMember_MemberIdAndReturnDateIsNull(memberId);
-        boolean hasFine = borrowRecordRepository.existsByMember_MemberIdAndFineGreaterThan(memberId, BigDecimal.ZERO);
+        BigDecimal totalFine = borrowRecordRepository.sumOutstandingFinesByMemberId(memberId);
+        if (totalFine == null) {
+            totalFine = BigDecimal.ZERO;
+        }
         boolean hasOverdue = borrowRecordRepository.existsByMember_MemberIdAndDueDateBeforeAndReturnDateIsNull(memberId, LocalDate.now());
-        if (active >= 5 || hasFine || hasOverdue) {
+        if (active >= 3 || totalFine.compareTo(BigDecimal.valueOf(10)) > 0 || hasOverdue) {
             return ResponseEntity.badRequest().build();
         }
 

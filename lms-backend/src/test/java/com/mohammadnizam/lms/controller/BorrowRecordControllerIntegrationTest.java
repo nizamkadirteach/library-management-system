@@ -103,6 +103,95 @@ class BorrowRecordControllerIntegrationTest {
     }
 
     @Test
+    void borrowBook_failsWhenActiveLimitReached() throws Exception {
+        Member member = createMemberWithUser();
+        String auth = authHeader(member);
+
+        for (int i = 0; i < 3; i++) {
+            Book b = new Book();
+            b.setIsbn("active" + i);
+            b.setTitle("Book" + i);
+            b.setAuthor("Author");
+            b.setCategory("Fiction");
+            b.setPublicationYear(2023);
+            b.setCopiesAvailable(0);
+            b.setStatus(BookStatus.BORROWED);
+            b = bookRepository.save(b);
+
+            BorrowRecord r = new BorrowRecord();
+            r.setMember(member);
+            r.setBook(b);
+            r.setBorrowDate(LocalDate.now().minusDays(1));
+            r.setDueDate(LocalDate.now().plusDays(13));
+            r.setFine(BigDecimal.ZERO);
+            borrowRecordRepository.save(r);
+        }
+
+        Book newBook = new Book();
+        newBook.setIsbn("new1");
+        newBook.setTitle("New Book");
+        newBook.setAuthor("Author");
+        newBook.setCategory("Fiction");
+        newBook.setPublicationYear(2023);
+        newBook.setCopiesAvailable(1);
+        newBook.setStatus(BookStatus.AVAILABLE);
+        newBook = bookRepository.save(newBook);
+
+        mockMvc.perform(post("/api/borrow-records/borrow")
+                        .param("memberId", member.getMemberId().toString())
+                        .param("bookId", newBook.getBookId().toString())
+                        .header("Authorization", auth))
+                .andExpect(status().isBadRequest());
+
+        assertThat(borrowRecordRepository.count()).isEqualTo(3);
+        Book unchanged = bookRepository.findById(newBook.getBookId()).orElseThrow();
+        assertThat(unchanged.getCopiesAvailable()).isEqualTo(1);
+    }
+
+    @Test
+    void borrowBook_failsWhenOutstandingFinesExceedLimit() throws Exception {
+        Member member = createMemberWithUser();
+        String auth = authHeader(member);
+
+        Book fineBook = new Book();
+        fineBook.setIsbn("fine1");
+        fineBook.setTitle("Fine Book");
+        fineBook.setAuthor("Author");
+        fineBook.setCategory("Fiction");
+        fineBook.setPublicationYear(2023);
+        fineBook.setCopiesAvailable(1);
+        fineBook.setStatus(BookStatus.AVAILABLE);
+        fineBook = bookRepository.save(fineBook);
+
+        BorrowRecord record = new BorrowRecord();
+        record.setMember(member);
+        record.setBook(fineBook);
+        record.setBorrowDate(LocalDate.now().minusDays(10));
+        record.setDueDate(LocalDate.now().minusDays(5));
+        record.setReturnDate(LocalDate.now().minusDays(3));
+        record.setFine(BigDecimal.valueOf(15));
+        borrowRecordRepository.save(record);
+
+        Book borrowable = new Book();
+        borrowable.setIsbn("borrowable");
+        borrowable.setTitle("Borrowable");
+        borrowable.setAuthor("Author");
+        borrowable.setCategory("Fiction");
+        borrowable.setPublicationYear(2023);
+        borrowable.setCopiesAvailable(1);
+        borrowable.setStatus(BookStatus.AVAILABLE);
+        borrowable = bookRepository.save(borrowable);
+
+        mockMvc.perform(post("/api/borrow-records/borrow")
+                        .param("memberId", member.getMemberId().toString())
+                        .param("bookId", borrowable.getBookId().toString())
+                        .header("Authorization", auth))
+                .andExpect(status().isBadRequest());
+
+        assertThat(borrowRecordRepository.count()).isEqualTo(1);
+    }
+
+    @Test
     void returnBook_setsFineIfOverdue() throws Exception {
         Member member = createMemberWithUser();
         String auth = authHeader(member);
