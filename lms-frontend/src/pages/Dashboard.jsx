@@ -3,6 +3,7 @@ import api from '../api/axios'
 import Button from '../components/ui/Button'
 import Card from '../components/ui/Card'
 import FineIcon from '../assets/icons/FineIcon'
+import Logo from '../components/common/Logo'
 
 export default function Dashboard() {
   const [memberId, setMemberId] = useState('')
@@ -21,6 +22,8 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-4">
+      {/* ✅ Logo added to dashboard */}
+      <Logo size="small" variant="navbar" />
       <h1 className="text-2xl font-bold">Dashboard</h1>
       <Card className="flex items-center gap-2 w-fit">
         <input
