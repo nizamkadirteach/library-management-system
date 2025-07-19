@@ -44,23 +44,28 @@ Entities include `users`, `books`, `members`, `borrow_transactions` and `reserva
 
 ## Setup
 1. Create the database `lms_db` and run `sql/create_tables.sql`.
-2. (Optional) Seed sample data with hashed passwords:
+2. Configure a JWT secret in `lms-backend/src/main/resources/application.properties`:
+   ```properties
+   jwt.secret=BASE64_ENCODED_SECRET
+   ```
+   You can generate one with `openssl rand -base64 32`.
+3. (Optional) Seed sample data with hashed passwords:
    ```bash
    mysql -u root -p lms_db < sql/insert_sample_data.sql
    ```
    Default logins include `admin/admin123` for an admin user.
-3. Start the backend:
+4. Start the backend:
    ```bash
    cd lms-backend
    ./mvnw spring-boot:run
    ```
-4. Start the frontend:
+5. Start the frontend:
    ```bash
    cd lms-frontend
    npm install
    npm run dev
    ```
-5. Open `http://localhost:5173` in a browser.
+6. Open `http://localhost:5173` in a browser.
 
 ## Tests
 Backend unit tests can be executed with:
