@@ -50,6 +50,9 @@ Entities include `users`, `books`, `members`, `borrow_transactions` and `reserva
    jwt.secret=c2VjcmV0LWtleQ==
    ```
    Replace this with your own secret (generate with `openssl rand -base64 32`).
+   
+   If a registration attempt uses an existing username, the API returns `409 Conflict`.
+
 3. (Optional) Seed sample data with hashed passwords:
    ```bash
    mysql -u root -p lms_db < sql/insert_sample_data.sql
