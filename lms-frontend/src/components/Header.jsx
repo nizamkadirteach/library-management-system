@@ -7,6 +7,7 @@ export default function Header() {
   const navigate = useNavigate()
   const username = getUsername()
   const role = getUserRole()
+  const logoDestination = role === 'ADMIN' ? '/admin-dashboard' : '/dashboard'
 
   const handleLogout = () => {
     // ✅ Clear token and redirect on logout
@@ -18,7 +19,7 @@ export default function Header() {
     // 🧠 Top navigation bar shown after login
     <header className="bg-white border-b flex items-center justify-between px-4 py-2">
       {/* Logo navigates to dashboard */}
-      <Logo size="small" variant="navbar" />
+      <Logo size="small" variant="navbar" to={logoDestination} />
       <div className="flex items-center gap-3">
         {/* 🧠 Displaying user role and name in top right */}
         {username && (

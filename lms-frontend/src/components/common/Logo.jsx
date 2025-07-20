@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
-export default function Logo({ size = 'medium', variant = 'navbar' }) {
+// Added optional `to` prop so logo link can be customized
+export default function Logo({ size = 'medium', variant = 'navbar', to = '/' }) {
   const sizeClasses = {
     small: 'w-8',
     medium: 'w-16',
@@ -18,7 +19,7 @@ export default function Logo({ size = 'medium', variant = 'navbar' }) {
 
   return (
     // 📌 Reusable logo for all pages
-    <Link to="/" className={variant === 'navbar' ? 'block' : undefined}>
+    <Link to={to} className={variant === 'navbar' ? 'block' : undefined}>
       <img
         src="/logo.png"
         alt="Library Logo"
