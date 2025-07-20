@@ -1,3 +1,4 @@
+
 -- Additional 50 real books
 INSERT INTO books (isbn, title, author, category, publication_year, copies_available, status) VALUES
 ('978-0451524935', '1984', 'George Orwell', 'Fiction', 1949, 3, 'AVAILABLE'),

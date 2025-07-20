@@ -74,7 +74,7 @@ export default function ReservationPage() {
           <li key={r.reservationId}>
             <Card className="flex justify-between items-center gap-2">
               <span>
-                Member {r.memberId} reserved Book {r.bookId} ({r.status})
+                Member {r.memberName} (ID {r.memberId}) reserved Book {r.bookTitle} (ID {r.bookId}) ({r.status})
               </span>
               {r.status === 'ACTIVE' && (
                 <Button

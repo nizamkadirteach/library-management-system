@@ -28,7 +28,7 @@ export default function BorrowingHistoryPage() {
           <li key={r.recordId}>
             <Card className="flex flex-col gap-1">
               <span>
-                Record {r.recordId} &ndash; Book {r.bookId}
+                Record {r.recordId} &ndash; Book {r.bookTitle} (ID {r.bookId})
               </span>
               <span>Borrowed: {r.borrowDate}</span>
               <span>Due: {r.dueDate}</span>

@@ -136,8 +136,7 @@ export default function BorrowRecordPage() {
               <Card className="flex justify-between items-center gap-2">
                 {/* 🧠 Reused BookCard component under My Borrowed Books */}
                 <span className="flex-1">
-                  Record {r.recordId} &ndash; Book {r.bookId} &ndash; Member{' '}
-                  {r.memberId}
+                  Record {r.recordId} &ndash; Book {r.bookTitle} (ID {r.bookId}) &ndash; Member {r.memberName} (ID {r.memberId})
                   <span className="ml-2">Due: {r.dueDate}</span>
                   {overdue && (
                     <span className="text-red-600 ml-2">Overdue!</span>
