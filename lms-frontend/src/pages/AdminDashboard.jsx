@@ -43,7 +43,7 @@ export default function AdminDashboard() {
               className={`flex justify-between items-center ${isBlocked(r) ? 'border-red-300 ring-1 ring-red-300' : ''}`}
             >
               <span>
-                Member {r.memberName} (ID {r.memberId}) &ndash; Book {r.bookTitle} (ID {r.bookId}) (due {r.dueDate})
+                Member {r.memberName} (ID {r.memberId}) &ndash; Book {r.bookTitle} (ID {r.bookId}) (due {r.dueDate}, {r.daysOverdue} days overdue)
                 {isBlocked(r) && (
                   <span className="text-red-600 text-xs ml-2">Blocked</span>
                 )}

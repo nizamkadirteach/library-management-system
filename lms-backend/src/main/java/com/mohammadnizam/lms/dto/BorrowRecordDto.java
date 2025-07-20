@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Data
 @NoArgsConstructor
@@ -22,6 +23,7 @@ public class BorrowRecordDto {
     private LocalDate returnDate;
     private BigDecimal fine;
     private Integer renewalCount;
+    private long daysOverdue;
 
     public static BorrowRecordDto fromEntity(BorrowRecord record) {
         if (record == null) {
@@ -42,6 +44,15 @@ public class BorrowRecordDto {
         dto.setReturnDate(record.getReturnDate());
         dto.setRenewalCount(record.getRenewalCount());
         dto.setFine(record.getFine());
+        long overdue = 0;
+        if (record.getDueDate() != null) {
+            LocalDate compareDate = record.getReturnDate() != null ?
+                    record.getReturnDate() : LocalDate.now();
+            if (compareDate.isAfter(record.getDueDate())) {
+                overdue = ChronoUnit.DAYS.between(record.getDueDate(), compareDate);
+            }
+        }
+        dto.setDaysOverdue(overdue);
         return dto;
     }
 }
