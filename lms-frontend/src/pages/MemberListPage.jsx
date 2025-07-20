@@ -21,6 +21,16 @@ export default function MemberListPage() {
     }
   }
 
+  const handleDelete = async (id) => {
+    if (!window.confirm('Delete this member?')) return
+    try {
+      await api.delete(`/members/${id}`)
+      fetchMembers()
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   const handleSearch = async (e) => {
     e.preventDefault()
     try {
@@ -78,13 +88,22 @@ export default function MemberListPage() {
           <li key={m.memberId}>
             <Card className="flex justify-between items-start gap-2">
               <span className="font-medium">{m.fullName}</span>
-              <Button
-                type="button"
-                onClick={() => setEditMember(m)}
-                className="bg-primary text-sm"
-              >
-                Edit
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  onClick={() => setEditMember(m)}
+                  className="bg-primary text-sm"
+                >
+                  Edit
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => handleDelete(m.memberId)}
+                  className="bg-red-600 text-sm"
+                >
+                  Delete
+                </Button>
+              </div>
             </Card>
             {editMember && editMember.memberId === m.memberId && (
               <div className="mt-2">

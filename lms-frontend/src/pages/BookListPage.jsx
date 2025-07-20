@@ -26,6 +26,16 @@ export default function BookListPage() {
     }
   }
 
+  const handleDelete = async (id) => {
+    if (!window.confirm('Delete this book?')) return
+    try {
+      await api.delete(`/books/${id}`)
+      fetchBooks()
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   useEffect(() => {
     fetchBooks()
   }, [])
@@ -103,13 +113,22 @@ export default function BookListPage() {
           <li key={book.bookId}>
             <Card className="flex justify-between items-start gap-2">
               <span className="font-medium">{book.title}</span>
-              <Button
-                type="button"
-                onClick={() => setEditBook(book)}
-                className="bg-primary text-sm"
-              >
-                Edit
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  onClick={() => setEditBook(book)}
+                  className="bg-primary text-sm"
+                >
+                  Edit
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => handleDelete(book.bookId)}
+                  className="bg-red-600 text-sm"
+                >
+                  Delete
+                </Button>
+              </div>
             </Card>
             {editBook && editBook.bookId === book.bookId && (
               <div className="mt-2">
