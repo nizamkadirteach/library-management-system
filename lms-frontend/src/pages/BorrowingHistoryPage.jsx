@@ -5,12 +5,14 @@ import Card from '../components/ui/Card'
 
 export default function BorrowingHistoryPage() {
   const [records, setRecords] = useState([])
+  const sortRecords = (list) =>
+    list.sort((a, b) => new Date(b.borrowDate) - new Date(a.borrowDate))
 
   useEffect(() => {
     const fetchHistory = async () => {
       try {
         const { data } = await api.get('/borrow-records/my')
-        setRecords(data)
+        setRecords(sortRecords(data))
       } catch (err) {
         console.error(err)
       }
