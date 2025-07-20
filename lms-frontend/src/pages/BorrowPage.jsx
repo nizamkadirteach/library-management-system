@@ -90,27 +90,45 @@ export default function BorrowPage() {
         </div>
       )}
       <div className="grid gap-2 sm:grid-cols-3">
-        <input
-          type="text"
-          placeholder="Title"
-          value={query.title}
-          onChange={(e) => setQuery({ ...query, title: e.target.value })}
-          className="border p-2 rounded"
-        />
-        <input
-          type="text"
-          placeholder="Author"
-          value={query.author}
-          onChange={(e) => setQuery({ ...query, author: e.target.value })}
-          className="border p-2 rounded"
-        />
-        <input
-          type="text"
-          placeholder="Category"
-          value={query.category}
-          onChange={(e) => setQuery({ ...query, category: e.target.value })}
-          className="border p-2 rounded"
-        />
+        <div>
+          <label htmlFor="borrowTitle" className="sr-only">
+            Title
+          </label>
+          <input
+            id="borrowTitle"
+            type="text"
+            placeholder="Title"
+            value={query.title}
+            onChange={(e) => setQuery({ ...query, title: e.target.value })}
+            className="border p-2 rounded"
+          />
+        </div>
+        <div>
+          <label htmlFor="borrowAuthor" className="sr-only">
+            Author
+          </label>
+          <input
+            id="borrowAuthor"
+            type="text"
+            placeholder="Author"
+            value={query.author}
+            onChange={(e) => setQuery({ ...query, author: e.target.value })}
+            className="border p-2 rounded"
+          />
+        </div>
+        <div>
+          <label htmlFor="borrowCategory" className="sr-only">
+            Category
+          </label>
+          <input
+            id="borrowCategory"
+            type="text"
+            placeholder="Category"
+            value={query.category}
+            onChange={(e) => setQuery({ ...query, category: e.target.value })}
+            className="border p-2 rounded"
+          />
+        </div>
       </div>
       {message && (
         <div className="p-2 bg-green-100 text-green-700 rounded" role="alert">

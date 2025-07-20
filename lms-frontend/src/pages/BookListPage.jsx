@@ -63,27 +63,45 @@ export default function BookListPage() {
       <h1 className="text-2xl font-bold">Books</h1>
       <div className="flex flex-col gap-3">
         <form onSubmit={handleSearch} className="flex flex-wrap gap-2">
-          <input
-            type="text"
-            placeholder="Search by title"
-            value={search.title}
-            onChange={(e) => setSearch({ ...search, title: e.target.value })}
-            className="border p-2 rounded flex-1 min-w-[150px]"
-          />
-          <input
-            type="text"
-            placeholder="Author"
-            value={search.author}
-            onChange={(e) => setSearch({ ...search, author: e.target.value })}
-            className="border p-2 rounded flex-1 min-w-[150px]"
-          />
-          <input
-            type="text"
-            placeholder="Category"
-            value={search.category}
-            onChange={(e) => setSearch({ ...search, category: e.target.value })}
-            className="border p-2 rounded flex-1 min-w-[150px]"
-          />
+          <div>
+            <label htmlFor="searchTitle" className="sr-only">
+              Title
+            </label>
+            <input
+              id="searchTitle"
+              type="text"
+              placeholder="Search by title"
+              value={search.title}
+              onChange={(e) => setSearch({ ...search, title: e.target.value })}
+              className="border p-2 rounded flex-1 min-w-[150px]"
+            />
+          </div>
+          <div>
+            <label htmlFor="searchAuthor" className="sr-only">
+              Author
+            </label>
+            <input
+              id="searchAuthor"
+              type="text"
+              placeholder="Author"
+              value={search.author}
+              onChange={(e) => setSearch({ ...search, author: e.target.value })}
+              className="border p-2 rounded flex-1 min-w-[150px]"
+            />
+          </div>
+          <div>
+            <label htmlFor="searchCategory" className="sr-only">
+              Category
+            </label>
+            <input
+              id="searchCategory"
+              type="text"
+              placeholder="Category"
+              value={search.category}
+              onChange={(e) => setSearch({ ...search, category: e.target.value })}
+              className="border p-2 rounded flex-1 min-w-[150px]"
+            />
+          </div>
           <Button type="submit" className="bg-primary flex items-center gap-1">
             <SearchIcon className="w-5 h-5" /> Search
           </Button>

@@ -55,21 +55,38 @@ export default function MemberForm({ member, onSuccess, onCancel }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-2 border p-4 rounded bg-gray-50">
-      {error && <div className="text-red-600">{error}</div>}
-      {success && <div className="text-green-600">{success}</div>}
-      <div>
+      {error && (
+        <div className="text-red-600" id="member-form-error" role="alert">
+          {error}
+        </div>
+      )}
+      {success && (
+        <div className="text-green-600" role="status">
+          {success}
+        </div>
+      )}
+      <div className="space-y-1">
+        <label htmlFor="fullName" className="block text-sm font-medium">
+          Full Name
+        </label>
         <input
+          id="fullName"
           name="fullName"
           type="text"
           placeholder="Full Name"
           value={form.fullName}
           onChange={handleChange}
+          aria-describedby="member-form-error"
           className="border p-1 w-full"
           required
         />
       </div>
       <div>
+        <label htmlFor="contactInfo" className="sr-only">
+          Contact Info
+        </label>
         <input
+          id="contactInfo"
           name="contactInfo"
           type="text"
           placeholder="Contact Info"
@@ -79,7 +96,11 @@ export default function MemberForm({ member, onSuccess, onCancel }) {
         />
       </div>
       <div>
+        <label htmlFor="address" className="sr-only">
+          Address
+        </label>
         <input
+          id="address"
           name="address"
           type="text"
           placeholder="Address"
@@ -89,7 +110,11 @@ export default function MemberForm({ member, onSuccess, onCancel }) {
         />
       </div>
       <div>
+        <label htmlFor="membershipStart" className="sr-only">
+          Membership Start
+        </label>
         <input
+          id="membershipStart"
           name="membershipStart"
           type="date"
           placeholder="Start"
@@ -99,7 +124,11 @@ export default function MemberForm({ member, onSuccess, onCancel }) {
         />
       </div>
       <div>
+        <label htmlFor="membershipEnd" className="sr-only">
+          Membership End
+        </label>
         <input
+          id="membershipEnd"
           name="membershipEnd"
           type="date"
           placeholder="End"

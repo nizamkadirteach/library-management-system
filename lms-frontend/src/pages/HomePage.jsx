@@ -124,7 +124,11 @@ export default function HomePage() {
           onSubmit={handleSearch}
           className="max-w-xl mx-auto flex w-full border rounded-md overflow-hidden"
         >
+          <label htmlFor="homeSearch" className="sr-only">
+            Search books by title
+          </label>
           <input
+            id="homeSearch"
             type="text"
             placeholder="Search books by title"
             value={query}

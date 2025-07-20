@@ -92,37 +92,61 @@ export default function BorrowRecordPage() {
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">Borrow Records</h1>
       <form onSubmit={handleSearch} className="flex gap-2 flex-wrap">
-        <input
-          type="text"
-          placeholder="Title"
-          value={search.title}
-          onChange={(e) => setSearch({ ...search, title: e.target.value })}
-          className="border p-2 rounded"
-        />
-        <input
-          type="date"
-          value={search.startDate}
-          onChange={(e) => setSearch({ ...search, startDate: e.target.value })}
-          className="border p-2 rounded"
-        />
-        <input
-          type="date"
-          value={search.endDate}
-          onChange={(e) => setSearch({ ...search, endDate: e.target.value })}
-          className="border p-2 rounded"
-        />
+        <div>
+          <label htmlFor="searchTitle" className="sr-only">
+            Title
+          </label>
+          <input
+            id="searchTitle"
+            type="text"
+            placeholder="Title"
+            value={search.title}
+            onChange={(e) => setSearch({ ...search, title: e.target.value })}
+            className="border p-2 rounded"
+          />
+        </div>
+        <div>
+          <label htmlFor="startDate" className="sr-only">
+            Start date
+          </label>
+          <input
+            id="startDate"
+            type="date"
+            value={search.startDate}
+            onChange={(e) => setSearch({ ...search, startDate: e.target.value })}
+            className="border p-2 rounded"
+          />
+        </div>
+        <div>
+          <label htmlFor="endDate" className="sr-only">
+            End date
+          </label>
+          <input
+            id="endDate"
+            type="date"
+            value={search.endDate}
+            onChange={(e) => setSearch({ ...search, endDate: e.target.value })}
+            className="border p-2 rounded"
+          />
+        </div>
         <Button type="submit" className="bg-primary flex items-center gap-1">
           <SearchIcon className="w-5 h-5" /> Search
         </Button>
       </form>
       <form onSubmit={handleBorrow} className="flex gap-2 flex-wrap">
-        <input
-          type="number"
-          placeholder="Book ID"
-          value={bookId}
-          onChange={(e) => setBookId(e.target.value)}
-          className="border p-2 rounded"
-        />
+        <div>
+          <label htmlFor="borrowBookId" className="sr-only">
+            Book ID
+          </label>
+          <input
+            id="borrowBookId"
+            type="number"
+            placeholder="Book ID"
+            value={bookId}
+            onChange={(e) => setBookId(e.target.value)}
+            className="border p-2 rounded"
+          />
+        </div>
         <Button type="submit" className="bg-secondary flex items-center gap-1">
           <BorrowIcon className="w-5 h-5" /> Borrow
         </Button>

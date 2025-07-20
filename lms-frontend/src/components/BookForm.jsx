@@ -67,20 +67,37 @@ export default function BookForm({ book, onSuccess, onCancel }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-2 border p-4 rounded bg-gray-50">
-      {error && <div className="text-red-600">{error}</div>}
-      {success && <div className="text-green-600">{success}</div>}
-      <div>
+      {error && (
+        <div className="text-red-600" id="book-form-error" role="alert">
+          {error}
+        </div>
+      )}
+      {success && (
+        <div className="text-green-600" role="status">
+          {success}
+        </div>
+      )}
+      <div className="space-y-1">
+        <label htmlFor="isbn" className="block text-sm font-medium">
+          ISBN
+        </label>
         <input
+          id="isbn"
           name="isbn"
           type="text"
           placeholder="ISBN"
           value={form.isbn}
           onChange={handleChange}
+          aria-describedby="book-form-error"
           className="border p-1 w-full"
         />
       </div>
       <div>
+        <label htmlFor="title" className="sr-only">
+          Title
+        </label>
         <input
+          id="title"
           name="title"
           type="text"
           placeholder="Title"
@@ -91,7 +108,11 @@ export default function BookForm({ book, onSuccess, onCancel }) {
         />
       </div>
       <div>
+        <label htmlFor="author" className="sr-only">
+          Author
+        </label>
         <input
+          id="author"
           name="author"
           type="text"
           placeholder="Author"
@@ -102,7 +123,11 @@ export default function BookForm({ book, onSuccess, onCancel }) {
         />
       </div>
       <div>
+        <label htmlFor="category" className="sr-only">
+          Category
+        </label>
         <input
+          id="category"
           name="category"
           type="text"
           placeholder="Category"
@@ -112,7 +137,11 @@ export default function BookForm({ book, onSuccess, onCancel }) {
         />
       </div>
       <div>
+        <label htmlFor="publicationYear" className="sr-only">
+          Publication Year
+        </label>
         <input
+          id="publicationYear"
           name="publicationYear"
           type="number"
           placeholder="Publication Year"
@@ -122,7 +151,11 @@ export default function BookForm({ book, onSuccess, onCancel }) {
         />
       </div>
       <div>
+        <label htmlFor="copiesAvailable" className="sr-only">
+          Copies Available
+        </label>
         <input
+          id="copiesAvailable"
           name="copiesAvailable"
           type="number"
           placeholder="Copies Available"
@@ -132,8 +165,12 @@ export default function BookForm({ book, onSuccess, onCancel }) {
         />
       </div>
       {book && (
-        <div>
+        <div className="space-y-1">
+          <label htmlFor="status" className="block text-sm font-medium">
+            Status
+          </label>
           <select
+            id="status"
             name="status"
             value={form.status}
             onChange={handleChange}
