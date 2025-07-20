@@ -60,6 +60,12 @@ Entities include `users`, `books`, `members`, `borrow_transactions` and `reserva
    ```
    The default admin credentials are `admin/admin123`. If you skip seeding,
    create an admin user manually before logging in.
+
+   To load additional demo users, run:
+   ```bash
+   mysql -u root -p lms_db < sql/insert_demo_data.sql
+   ```
+   This script adds sample accounts like `user_3books` for testing.
 4. Start the backend:
    ```bash
    cd lms-backend
