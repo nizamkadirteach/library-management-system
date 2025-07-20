@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import Logo from '../components/common/Logo'
 import api from '../api/axios'
 import Card from '../components/ui/Card'
+import ReturnIcon from '../assets/icons/ReturnIcon'
 
 export default function BookDetailPage() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const [book, setBook] = useState(null)
   const [loading, setLoading] = useState(true)
 
@@ -30,6 +32,14 @@ export default function BookDetailPage() {
     <div className="p-4 max-w-2xl mx-auto space-y-4">
       {/* ✅ Logo added to book detail */}
       <Logo size="small" variant="navbar" />
+      {/* 🔙 Button to return to previous page */}
+      <button
+        type="button"
+        onClick={() => navigate(-1)}
+        className="flex items-center gap-1 text-primary hover:underline"
+      >
+        <ReturnIcon className="w-4 h-4" /> Back
+      </button>
       <h1 className="text-2xl font-bold">{book.title}</h1>
       <p className="text-gray-600">by {book.author}</p>
       <Card className="space-y-1">
