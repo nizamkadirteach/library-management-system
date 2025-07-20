@@ -32,7 +32,12 @@ public class MemberController {
     public ResponseEntity<List<MemberDto>> getAllMembers() {
         List<MemberDto> list = memberRepository.findAll()
                 .stream()
-                .map(MemberDto::fromEntity)
+                .map(m -> {
+                    MemberDto dto = MemberDto.fromEntity(m);
+                    dto.setBorrowCount(memberRepository.countActiveBorrows(m.getMemberId()));
+                    dto.setFineAmount(memberRepository.sumOutstandingFines(m.getMemberId()));
+                    return dto;
+                })
                 .toList();
         return ResponseEntity.ok(list);
     }
@@ -43,7 +48,12 @@ public class MemberController {
         String n = name != null ? name : "";
         List<MemberDto> list = memberRepository.findByFullNameContainingIgnoreCase(n)
                 .stream()
-                .map(MemberDto::fromEntity)
+                .map(m -> {
+                    MemberDto dto = MemberDto.fromEntity(m);
+                    dto.setBorrowCount(memberRepository.countActiveBorrows(m.getMemberId()));
+                    dto.setFineAmount(memberRepository.sumOutstandingFines(m.getMemberId()));
+                    return dto;
+                })
                 .toList();
         return ResponseEntity.ok(list);
     }

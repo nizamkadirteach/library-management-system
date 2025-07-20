@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
@@ -19,6 +20,8 @@ public class MemberDto {
     private LocalDate membershipStart;
     private LocalDate membershipEnd;
     private Integer userId;
+    private long borrowCount;
+    private BigDecimal fineAmount;
 
     public static MemberDto fromEntity(Member member) {
         if (member == null) {
@@ -34,6 +37,8 @@ public class MemberDto {
         if (member.getUser() != null) {
             dto.setUserId(member.getUser().getId());
         }
+        dto.setBorrowCount(0);
+        dto.setFineAmount(BigDecimal.ZERO);
         return dto;
     }
 }
