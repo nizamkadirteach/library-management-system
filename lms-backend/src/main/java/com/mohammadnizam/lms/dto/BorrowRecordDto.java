@@ -14,7 +14,9 @@ import java.time.LocalDate;
 public class BorrowRecordDto {
     private Integer recordId;
     private Integer memberId;
+    private String memberName;
     private Integer bookId;
+    private String bookTitle;
     private LocalDate borrowDate;
     private LocalDate dueDate;
     private LocalDate returnDate;
@@ -29,9 +31,11 @@ public class BorrowRecordDto {
         dto.setRecordId(record.getRecordId());
         if (record.getMember() != null) {
             dto.setMemberId(record.getMember().getMemberId());
+            dto.setMemberName(record.getMember().getFullName());
         }
         if (record.getBook() != null) {
             dto.setBookId(record.getBook().getBookId());
+            dto.setBookTitle(record.getBook().getTitle());
         }
         dto.setBorrowDate(record.getBorrowDate());
         dto.setDueDate(record.getDueDate());
