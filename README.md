@@ -37,6 +37,15 @@ Architecture follows MVC with REST APIs.
 
 Entities include `users`, `books`, `members`, `borrow_transactions` and `reservations`. The SQL schema resides in `sql/create_tables.sql`.
 
+## Project Documentation
+Detailed project documents are provided in the `docs/` directory:
+
+- **[Business Requirements Document](docs/BRD.md)** – outlines the overall objectives and business rules.
+- **[Software Requirements Specification](docs/SRS.md)** – lists functional and non‑functional requirements.
+- **[System Design Document](docs/SDD.md)** – describes the architecture and API design.
+
+Consult these files for deeper context on features, architecture and implementation choices.
+
 ## Repository Structure
 - `lms-backend/` – Spring Boot backend application
 - `lms-frontend/` – React frontend
