@@ -5,7 +5,7 @@ import Button from '../components/ui/Button'
 import Card from '../components/ui/Card'
 import UserIcon from '../assets/icons/UserIcon'
 import Logo from '../components/common/Logo'
-import { getUserRole } from '../utils/auth'
+import { getUserRole, setFullName } from '../utils/auth'
 
 export default function LoginPage() {
   const [username, setUsername] = useState('')
@@ -17,6 +17,12 @@ export default function LoginPage() {
     try {
       const { data } = await api.post('/auth/login', { username, password })
       localStorage.setItem('token', data.token)
+      try {
+        const res = await api.get('/members/me')
+        setFullName(res.data.fullName)
+      } catch (err) {
+        console.error(err)
+      }
       const role = getUserRole()
       if (role === 'ADMIN') {
         navigate('/admin-dashboard')
