@@ -12,6 +12,7 @@ import MemberDashboard from './pages/MemberDashboard'
 import BorrowRecordPage from './pages/BorrowRecordPage'
 import BorrowingHistoryPage from './pages/BorrowingHistoryPage'
 import ReservationPage from './pages/ReservationPage'
+import AdminLogsPage from './pages/AdminLogsPage'
 import Dashboard from './pages/Dashboard'
 import MyFinesPage from './pages/MyFinesPage'
 import DashboardLayout from './layouts/DashboardLayout'
@@ -58,6 +59,14 @@ export default function App() {
             element={
               <AdminRoute>
                 <AdminDashboard />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/admin-logs"
+            element={
+              <AdminRoute>
+                <AdminLogsPage />
               </AdminRoute>
             }
           />
