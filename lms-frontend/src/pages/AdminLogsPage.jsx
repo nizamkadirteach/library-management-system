@@ -55,8 +55,8 @@ export default function AdminLogsPage() {
       ) : (
         <ul className="space-y-2">
           {view === 'borrow' &&
-            records.map((r) => (
-              <li key={r.recordId}>
+            records.map((r, idx) => (
+              <li key={r.recordId ?? `${r.bookId}-${idx}`}>
                 <Card className="flex flex-col gap-1">
                   <span>
                     Record {r.recordId} &ndash; Book {r.bookId} &ndash; Member{' '}
@@ -74,8 +74,8 @@ export default function AdminLogsPage() {
               </li>
             ))}
           {view === 'reservation' &&
-            records.map((r) => (
-              <li key={r.reservationId}>
+            records.map((r, idx) => (
+              <li key={r.reservationId ?? `${r.bookId}-${idx}`}>
                 <Card className="flex justify-between items-center">
                   <span>
                     Member {r.memberId} reserved Book {r.bookId} on{' '}
