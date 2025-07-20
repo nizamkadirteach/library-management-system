@@ -10,6 +10,7 @@ import BorrowPage from './pages/BorrowPage'
 import AdminDashboard from './pages/AdminDashboard'
 import MemberDashboard from './pages/MemberDashboard'
 import BorrowRecordPage from './pages/BorrowRecordPage'
+import BorrowingHistoryPage from './pages/BorrowingHistoryPage'
 import ReservationPage from './pages/ReservationPage'
 import Dashboard from './pages/Dashboard'
 import MyFinesPage from './pages/MyFinesPage'
@@ -61,6 +62,7 @@ export default function App() {
             }
           />
           <Route path="/borrow-records" element={<BorrowRecordPage />} />
+          <Route path="/borrowing-history" element={<BorrowingHistoryPage />} />
           <Route path="/reservations" element={<ReservationPage />} />
         </Route>
       </Routes>

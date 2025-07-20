@@ -34,6 +34,7 @@ export default function TabNav({ role }) {
       label: 'My Borrowed Books',
       icon: BookIcon, // 🧠 Reused BookCard component under My Borrowed Books
     },
+    { to: '/borrowing-history', label: 'Borrowing History', icon: RecordIcon },
     { to: '/reservations', label: 'My Reservations', icon: CalendarIcon },
     { to: '/my-fines', label: 'My Fines', icon: FineIcon },
   ]
