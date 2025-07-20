@@ -101,22 +101,34 @@ export default function RegisterPage() {
             onChange={handleChange}
             className="border p-2 rounded w-full"
           />
-          <input
-            type="date"
-            name="membershipStart"
-            placeholder="Start"
-            value={form.membershipStart}
-            onChange={handleChange}
-            className="border p-2 rounded w-full"
-          />
-          <input
-            type="date"
-            name="membershipEnd"
-            placeholder="End"
-            value={form.membershipEnd}
-            onChange={handleChange}
-            className="border p-2 rounded w-full"
-          />
+          <div>
+            <label className="sr-only" htmlFor="membershipStart">
+              Membership Start Date
+            </label>
+            <input
+              id="membershipStart"
+              type="date"
+              name="membershipStart"
+              placeholder="Start"
+              value={form.membershipStart}
+              onChange={handleChange}
+              className="border p-2 rounded w-full"
+            />
+          </div>
+          <div>
+            <label className="sr-only" htmlFor="membershipEnd">
+              Membership End Date
+            </label>
+            <input
+              id="membershipEnd"
+              type="date"
+              name="membershipEnd"
+              placeholder="End"
+              value={form.membershipEnd}
+              onChange={handleChange}
+              className="border p-2 rounded w-full"
+            />
+          </div>
           <Button type="submit" className="bg-secondary w-full">
             Register
           </Button>
