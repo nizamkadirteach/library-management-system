@@ -87,7 +87,12 @@ export default function MemberListPage() {
         {members.map((m) => (
           <li key={m.memberId}>
             <Card className="flex justify-between items-start gap-2">
-              <span className="font-medium">{m.fullName}</span>
+              <span className="font-medium">
+                {m.fullName}
+                <span className="block text-sm font-normal">
+                  Borrows: {m.borrowCount} | Fines: ${m.fineAmount}
+                </span>
+              </span>
               <div className="flex gap-2">
                 <Button
                   type="button"
