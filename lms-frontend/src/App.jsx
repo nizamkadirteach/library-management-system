@@ -12,6 +12,7 @@ import MemberDashboard from './pages/MemberDashboard'
 import BorrowRecordPage from './pages/BorrowRecordPage'
 import ReservationPage from './pages/ReservationPage'
 import Dashboard from './pages/Dashboard'
+import MyFinesPage from './pages/MyFinesPage'
 import DashboardLayout from './layouts/DashboardLayout'
 import ProtectedRoute from './routes/ProtectedRoute'
 import AdminRoute from './routes/AdminRoute'
@@ -34,7 +35,7 @@ export default function App() {
           <Route path="/dashboard" element={<MemberDashboard />} />
           <Route path="/search-books" element={<SearchBooks />} />
           <Route path="/borrow" element={<BorrowPage />} />
-          <Route path="/my-fines" element={<Dashboard />} />
+          <Route path="/my-fines" element={<MyFinesPage />} />
           <Route
             path="/books"
             element={
