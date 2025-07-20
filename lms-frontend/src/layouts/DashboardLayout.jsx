@@ -4,7 +4,7 @@ import TabNav from '../components/TabNav'
 import Header from '../components/Header'
 
 export default function DashboardLayout({ role }) {
-  const userRole = (role || getUserRole() || '').toLowerCase()
+  const userRole = role || getUserRole() || ''
   return (
     <div className="min-h-screen flex flex-col">
       {/* ✅ New shared header with logo and logout */}

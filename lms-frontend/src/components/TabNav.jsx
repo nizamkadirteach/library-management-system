@@ -8,7 +8,7 @@ import SearchIcon from '../assets/icons/SearchIcon'
 import FineIcon from '../assets/icons/FineIcon'
 
 export default function TabNav({ role }) {
-  const userRole = role || getUserRole()
+  const userRole = (role || getUserRole() || '').toUpperCase()
   const linkClass = ({ isActive }) =>
     `flex items-center gap-1 px-3 py-2 border-b-2 hover:text-primary ${
       isActive
