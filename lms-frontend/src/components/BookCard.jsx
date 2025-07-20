@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Card from './ui/Card'
 
 export default function BookCard({ book, children }) {
@@ -10,10 +11,10 @@ export default function BookCard({ book, children }) {
   return (
     <Card className="space-y-1">
       <div className="flex justify-between items-start gap-2">
-        <div>
+        <Link to={`/book/${book.bookId}`} className="flex-1 space-y-0.5 hover:underline">
           <h3 className="font-semibold">{book.title}</h3>
           <p className="text-sm text-gray-600">{book.author}</p>
-        </div>
+        </Link>
         <span className={`text-xs px-2 py-1 rounded ${statusClass}`}>{book.status}</span>
       </div>
       {children}
