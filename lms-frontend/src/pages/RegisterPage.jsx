@@ -101,10 +101,15 @@ export default function RegisterPage() {
             onChange={handleChange}
             className="border p-2 rounded w-full"
           />
-          <div>
-            <label className="sr-only" htmlFor="membershipStart">
+          {/* ✅ Added label for Membership Start Date */}
+          <div className="space-y-1">
+            <label
+              className="block text-sm font-medium"
+              htmlFor="membershipStart"
+            >
               Membership Start Date
             </label>
+            <small className="text-xs text-gray-500">e.g., 01/01/2025</small>
             <input
               id="membershipStart"
               type="date"
@@ -115,10 +120,15 @@ export default function RegisterPage() {
               className="border p-2 rounded w-full"
             />
           </div>
-          <div>
-            <label className="sr-only" htmlFor="membershipEnd">
+          {/* ✅ Added label for Membership End Date */}
+          <div className="space-y-1">
+            <label
+              className="block text-sm font-medium"
+              htmlFor="membershipEnd"
+            >
               Membership End Date
             </label>
+            <small className="text-xs text-gray-500">e.g., 01/01/2025</small>
             <input
               id="membershipEnd"
               type="date"
