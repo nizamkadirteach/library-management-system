@@ -58,13 +58,19 @@ export default function ReservationPage() {
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">Reservations</h1>
       <form onSubmit={handleReserve} className="flex gap-2 flex-wrap">
-        <input
-          type="number"
-          placeholder="Book ID"
-          value={bookId}
-          onChange={(e) => setBookId(e.target.value)}
-          className="border p-2 rounded"
-        />
+        <div>
+          <label htmlFor="reserveBookId" className="sr-only">
+            Book ID
+          </label>
+          <input
+            id="reserveBookId"
+            type="number"
+            placeholder="Book ID"
+            value={bookId}
+            onChange={(e) => setBookId(e.target.value)}
+            className="border p-2 rounded"
+          />
+        </div>
         <Button type="submit" className="bg-primary flex items-center gap-1">
           <BorrowIcon className="w-5 h-5" /> Reserve
         </Button>

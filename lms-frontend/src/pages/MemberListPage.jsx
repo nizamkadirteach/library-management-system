@@ -52,13 +52,19 @@ export default function MemberListPage() {
       <h1 className="text-2xl font-bold">Members</h1>
       <div className="flex flex-col gap-3">
         <form onSubmit={handleSearch} className="flex gap-2 flex-wrap">
-          <input
-            type="text"
-            placeholder="Search by name"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="border p-2 rounded flex-1 min-w-[150px]"
-          />
+          <div>
+            <label htmlFor="memberSearch" className="sr-only">
+              Search Members
+            </label>
+            <input
+              id="memberSearch"
+              type="text"
+              placeholder="Search by name"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="border p-2 rounded flex-1 min-w-[150px]"
+            />
+          </div>
           <Button type="submit" className="bg-primary flex items-center gap-1">
             <SearchIcon className="w-5 h-5" /> Search
           </Button>

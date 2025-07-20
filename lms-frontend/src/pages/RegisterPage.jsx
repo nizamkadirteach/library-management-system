@@ -65,48 +65,78 @@ export default function RegisterPage() {
           <UserIcon className="w-8 h-8 text-primary" /> Register
         </h2>
         <form onSubmit={handleSubmit} className="space-y-3">
-          <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            value={form.username}
-            onChange={handleChange}
-            className="border p-2 rounded w-full"
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-            className="border p-2 rounded w-full"
-            required
-          />
-          <input
-            type="text"
-            name="fullName"
-            placeholder="Full Name"
-            value={form.fullName}
-            onChange={handleChange}
-            className="border p-2 rounded w-full"
-          />
-          <input
-            type="text"
-            name="contactInfo"
-            placeholder="Contact Info"
-            value={form.contactInfo}
-            onChange={handleChange}
-            className="border p-2 rounded w-full"
-          />
-          <input
-            type="text"
-            name="address"
-            placeholder="Address"
-            value={form.address}
-            onChange={handleChange}
-            className="border p-2 rounded w-full"
-          />
+          <div className="space-y-1">
+            <label htmlFor="username" className="block text-sm font-medium">
+              Username
+            </label>
+            <input
+              id="username"
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={form.username}
+              onChange={handleChange}
+              className="border p-2 rounded w-full"
+              required
+            />
+          </div>
+          <div className="space-y-1">
+            <label htmlFor="password" className="block text-sm font-medium">
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={form.password}
+              onChange={handleChange}
+              className="border p-2 rounded w-full"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="fullName" className="sr-only">
+              Full Name
+            </label>
+            <input
+              id="fullName"
+              type="text"
+              name="fullName"
+              placeholder="Full Name"
+              value={form.fullName}
+              onChange={handleChange}
+              className="border p-2 rounded w-full"
+            />
+          </div>
+          <div>
+            <label htmlFor="contactInfo" className="sr-only">
+              Contact Info
+            </label>
+            <input
+              id="contactInfo"
+              type="text"
+              name="contactInfo"
+              placeholder="Contact Info"
+              value={form.contactInfo}
+              onChange={handleChange}
+              className="border p-2 rounded w-full"
+            />
+          </div>
+          <div>
+            <label htmlFor="address" className="sr-only">
+              Address
+            </label>
+            <input
+              id="address"
+              type="text"
+              name="address"
+              placeholder="Address"
+              value={form.address}
+              onChange={handleChange}
+              className="border p-2 rounded w-full"
+            />
+          </div>
           {/* ✅ Added label for Membership Start Date */}
           <div className="space-y-1">
             <label
