@@ -16,10 +16,15 @@ export default function BorrowRecordPage() {
     endDate: '',
   })
 
+  const sortRecords = (list) =>
+    list.sort(
+      (a, b) => new Date(b.borrowDate) - new Date(a.borrowDate)
+    )
+
   const fetchRecords = async () => {
     try {
       const { data } = await api.get('/borrow-records/my')
-      setRecords(data)
+      setRecords(sortRecords(data))
     } catch (err) {
       console.error(err)
     }
@@ -62,7 +67,7 @@ export default function BorrowRecordPage() {
           endDate: search.endDate,
         },
       })
-      setRecords(data)
+      setRecords(sortRecords(data))
     } catch (err) {
       console.error(err)
     }
