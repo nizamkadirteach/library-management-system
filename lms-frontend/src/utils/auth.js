@@ -20,6 +20,17 @@ export function getUsername() {
   }
 }
 
+export function getFullName() {
+  return localStorage.getItem('fullName')
+}
+
+export function setFullName(name) {
+  if (name) {
+    localStorage.setItem('fullName', name)
+  }
+}
+
 export function logout() {
   localStorage.removeItem('token')
+  localStorage.removeItem('fullName')
 }
