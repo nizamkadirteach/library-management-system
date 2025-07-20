@@ -14,11 +14,13 @@ This module contains the Spring Boot application for the **Library Management Sy
    jwt.secret=BASE64_ENCODED_SECRET
    ```
    You can generate one with `openssl rand -base64 32`.
+   Configure the SMTP settings for email notifications in the same file.
 3. Run the application:
    ```bash
    ./mvnw spring-boot:run
    ```
 4. The API will be available at `http://localhost:8081/api/`.
+   Swagger UI is exposed at `http://localhost:8081/swagger-ui.html`.
 
 ## Common Endpoints
 - `POST /api/auth/register` – user registration
@@ -31,6 +33,10 @@ This module contains the Spring Boot application for the **Library Management Sy
 - `POST /api/return` – return a book
 
 Authentication for protected routes uses JWT tokens in the `Authorization` header.
+
+## Scheduled Tasks
+Overdue fines are recalculated each night at midnight and email reminders are
+sent via the `NotificationService`.
 
 ## Tests
 Run unit tests with:

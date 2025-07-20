@@ -51,6 +51,15 @@ Entities include `users`, `books`, `members`, `borrow_transactions` and `reserva
    ```
    Replace this with your own secret (generate with `openssl rand -base64 32`).
    If a registration attempt uses an existing username, the API returns `409 Conflict`.
+   
+   Configure the email server for overdue notifications in the same file:
+   ```properties
+   spring.mail.host=smtp.example.com
+   spring.mail.port=587
+   spring.mail.username=user@example.com
+   spring.mail.password=secret
+   mail.from=library@example.com
+   ```
 
 3. Seed sample data with hashed passwords (required for default logins):
 
@@ -78,11 +87,21 @@ Entities include `users`, `books`, `members`, `borrow_transactions` and `reserva
    npm run dev
    ```
 6. Open `http://localhost:5173` in a browser.
+7. For a production build of the React app:
+   ```bash
+   npm run build
+   npm run preview
+   ```
+
+The backend includes a daily scheduled job that calculates overdue fines and
+sends email reminders to members with outstanding items.
 
 ## API Documentation
 
 A Postman collection covering all API endpoints can be found at
 [docs/LMS.postman_collection.json](docs/LMS.postman_collection.json).
+Interactive Swagger UI documentation is available once the backend is running at
+`http://localhost:8081/swagger-ui.html`.
 
 ## Tests
 Backend unit tests can be executed with:
