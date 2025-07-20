@@ -24,7 +24,11 @@ export default function TabNav({ role }) {
       label: 'Manage Members',
       icon: UserIcon, // ✅ Only show Manage Members tab for Admin
     },
-    { to: '/borrow-records', label: 'Borrow/Reserve Logs', icon: RecordIcon },
+    {
+      to: '/admin-logs',
+      label: 'Borrow/Reserve Logs',
+      icon: RecordIcon,
+    },
   ]
 
   const memberTabs = [
