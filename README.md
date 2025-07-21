@@ -117,16 +117,20 @@ Interactive Swagger UI documentation is available once the backend is running at
 The `screenshots` folder contains captures of key LMS workflows.
 Below is a gallery illustrating how the application looks in action.
 
+Homepage
 ![Homepage - Desktop](screenshots/Homepage%20-%20Desktop.png)
 
 ![Homepage - Mobile](screenshots/Homepage%20-%20Mobile.png)
 
 ![Homepage - Search Books - Result](screenshots/Homepage%20-%20Search%20Books%20-%20Result.png)
 
+Login Page
 ![Login Page](screenshots/Login%20Page.png)
 
+Registration Page
 ![Register Page](screenshots/Register%20Page.png)
 
+Members Dashboard
 ![Member Dashboard - Login Redirect](screenshots/Member%20Dashboard%20-%20Login%20Redirect.png)
 
 ![Member Dashboard - My Borrowed Books](screenshots/Member%20Dashboard%20-%20My%20Borrowed%20Books.png)
@@ -141,6 +145,7 @@ Below is a gallery illustrating how the application looks in action.
 
 ![Member Dashboard - Borrowing History](screenshots/Member%20Dashboard%20-%20Borrowing%20History.png)
 
+Admin Dashboard
 ![Admin Dashboard - Borrow:Reserve Logs - Reservations](screenshots/Admin%20Dashboard%20-%20Borrow%3AReserve%20Logs%20-%20Reservations.png)
 
 ![Admin Dashboard - Borrow:Reserve Logs](screenshots/Admin%20Dashboard%20-%20Borrow%3AReserve%20Logs.png)
@@ -159,20 +164,26 @@ Below is a gallery illustrating how the application looks in action.
 
 ![Admin Dashboard - Manage Members](screenshots/Admin%20Dashboard%20-%20Manage%20Members.png)
 
+Test Cases
+
+Borrowing Limit
 ![Borrow Limit Scenario - Member Dashboard](screenshots/%20Borrow%20Limit%20Scenario%20-%20Member%20Dashboard.png)
 
 ![Borrow Limit Scenario - Failed To Borrow](screenshots/Borrow%20Limit%20Scenario%20-%20Failed%20To%20Borrow.png)
 
 ![Borrow Limit Scenario - My Borrowed Books](screenshots/Borrow%20Limit%20Scenario%20-%20My%20Borrowed%20Books.png)
 
+Clean User
 ![Clean User with On-Time Borrow - My Borrowed Books](screenshots/Clean%20User%20with%20On-Time%20Borrow%20-%20My%20Borrowed%20Books.png)
 
 ![Clean User with On-Time Borrow - My Fines](screenshots/Clean%20User%20with%20On-Time%20Borrow%20-%20My%20Fines.png)
 
+Fines > $10
 ![Fines > $10 Scenario - Member Dashboard](screenshots/Fines%20%3E%20%2410%20Scenario%20-%20Member%20Dashboard.png)
 
 ![Fines > $10 Scenario - My Fines](screenshots/Fines%20%3E%20%2410%20Scenario%20-%20My%20Fines.png)
 
+Reservation of Books
 ![Reservation Scenario - My Reservations](screenshots/Reservation%20Scenario%20-%20My%20Reservations.png)
 
 ![Reservation Scenario - Search Books - Book Borrowed - Reserved](screenshots/Reservation%20Scenario%20-%20Search%20Books%20-%20Book%20Borrowed%20-%20Reserved.png)
