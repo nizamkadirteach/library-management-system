@@ -43,6 +43,8 @@ Detailed project documents are provided in the `docs/` directory:
 - **[Business Requirements Document](docs/BRD.md)** – outlines the overall objectives and business rules.
 - **[Software Requirements Specification](docs/SRS.md)** – lists functional and non‑functional requirements.
 - **[System Design Document](docs/SDD.md)** – describes the architecture and API design.
+- **[User Manual](docs/User_Manual.md)** – step-by-step instructions for members and administrators.
+- **[Test Cases](docs/Test_Cases.md)** – UAT scenarios validating core LMS features.
 
 Consult these files for deeper context on features, architecture and implementation choices.
 
