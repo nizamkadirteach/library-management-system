@@ -29,7 +29,7 @@ This document provides structured User Acceptance Testing (UAT) scenarios for th
 | Member | `user_fined12` | admin123 | Has overdue book + $12 fine.               |
 | Member | `user_reserved`| admin123 | Has reserved one book (unavailable).        |
 | Member | `user_on_time` | admin123 | 1 borrowed book, not overdue, no fines.     |
-| Admin  | `admin_main`   | pass123  | Full system administrator access.           |
+| Admin  | `admin_main`   | admin123  | Full system administrator access.           |
 
 ---
 
